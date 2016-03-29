@@ -21,4 +21,5 @@ Usage:
 
     ./deliterate.sh mcp/annotated-mcp.md
     open mcp/annotated-mcp.md.html
+    cat mcp/annotated-mcp.md.xml
 
