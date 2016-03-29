@@ -1,3 +1,12 @@
+
+# don't commit generated files
+
+*.md.html
+*.md.xml
+
+
+##### github's node stuff below...
+
 # Logs
 logs
 *.log
