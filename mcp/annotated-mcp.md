@@ -36,6 +36,16 @@ The first item in the metadata record is a standard XML declaration.
 
 This identifies all the namespaces etc.
 
+WORK IN PROGRESS plz ignore -- Since the MCP2.0 schema isn't available at it's final home of
+`http://schemas.aodn.org.au/mcp-2.0`, and it's surprisingly difficult to
+specify a file path that GeoNetwork will follow, you need to **serve the
+schemata included in this repo from your local machine**.  Use port 8888.
+
+WORK IN PROGRESS plz ignore -- This will work:
+`cd _schemata ;; python -m SimpleHTTPServer 8888 &`
+
+Here's the opening tag.
+
     <mcp:MD_Metadata
         xmlns:mcp="http://bluenet3.antcrc.utas.edu.au/mcp"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -294,8 +304,11 @@ can in theory use all sorts of crazy stuff like year-plus-ordinal-days
 * December: `2015-12`
 * 21st Century: `20` *(maybe avoid this one if you can)*
 
+If you want to include a time portion, you need to use a `gco:DateTime`
+tag rather than a `gco:Date`.
+
     <gmd:dateStamp>
-        <gco:DateTime>2015-07-22</gco:DateTime>
+        <gco:Date>2015-07-22</gco:Date>
     </gmd:dateStamp>
 
 
@@ -324,21 +337,6 @@ the purposes of discoverability, citation, etc.
 Also note that to save some indenting space, I'm resetting the indentation for
 the content of this `MD_DataIdentification` tag -- the following XML is two
 levels less indented than you would expect.
-
-
-### Language and character set for the data
-
-These are the same tags as before, but this time they're describing the
-language and character set of the *dataset itself*.
-
-As always, for mcp2, the `codelist` URL should be `http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode`.
-
-    <gmd:language>
-        <gco:CharacterString>eng</gco:CharacterString>
-    </gmd:language>
-    <gmd:characterSet>
-        <gmd:MD_CharacterSetCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
-    </gmd:characterSet>
 
 
 #### Citation
@@ -606,7 +604,24 @@ that grow forever.
     </gmd:status>
 
 
-#### Thumbnails
+### Language and character set for the data
+
+These are the same tags as before, but this time they're describing the
+language and character set of the *dataset itself*.  I really wanted to move
+these tags to the top of the parent tag, but it has to follow the citation and
+abstract.
+
+As always, for mcp2, the `codelist` URL should be `http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode`.
+
+    <gmd:language>
+        <gco:CharacterString>eng</gco:CharacterString>
+    </gmd:language>
+    <gmd:characterSet>
+        <gmd:MD_CharacterSetCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+    </gmd:characterSet>
+
+
+### Thumbnails
 
 You can optionally supply thumbnails for the dataset by providing
 `graphicOverview` tags.  Only the `fileName` tag is required inside
@@ -645,139 +660,6 @@ TODO: investigate how GeoNetwork resolves thumbnail file paths.
             </gmd:fileType>
         </gmd:MD_BrowseGraphic>
     </gmd:graphicOverview>
-
-
-#### Topic and keywords
-
-Topic is mandatory.  It classifies the "theme" of the data (or "themes', you
-can have several of this tag) and should be drawn from [the
-MD_TopicCategoryCode
-list](http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopicCategoryCode),
-although in this case there is no need for a reference to the codelist URL.
-
-Datasets destined for AODN should use `oceans`.  Other alternatives are:
-
-- `biota`
-- `climatologyMeteorologyAtmosphere`, `environment`
-- `boundaries`, `planningCadastre`, `location`
-- `economy`, `farming`, `health`, `society`
-- `elevation`, `geoscientificInformation`
-- `imageryBaseMapsEarthCover`
-- `intelligenceMilitary`
-- `inlandWaters`
-- `structure`, `transportation`, `utilitiesCommunication`
-
-
-    <gmd:topicCategory>
-        <gmd:MD_TopicCategoryCode>oceans</gmd:MD_TopicCategoryCode>
-    </gmd:topicCategory>
-
-Keywords are optional.  They must be selected from a [NASA keyword
-list](http://gcmd.nasa.gov/Resources/valids/archives/keyword_list.html), and
-the MCP standard advises that the `thesaurusName` tag and its children be
-supplied identifying the keyword list.  The first example below shows the
-recommended form; the second example shows two keywords from eAtlas that do
-not include the thesaurus reference.
-
-In addition to the thesaurus reference, each set of keywords can have a `type`
-selected from another word list.  The types are:
-
-* `theme` is the subject or topic, and is the one you probably want most of
-  the time
-* `discipline` meaning a branch of study
-* `place` a location
-* `stratum` a deposited physical layer
-* `temporal` names a time period (noting that
-  [lunchtime is an illusion](http://www.goodreads.com/quotes/6344-time-is-an-illusion-lunchtime-doubly-so))
-* `taxon` means "a taxonomy" according to `gmxCodelists.xml`, which I think
-  means the keyword names a specific taxon (rather than the more silly
-  interpretation of *taxonomy* as being "Linnaean" or something like that)
-* `equipment` names gear used to collect data
-* `dataSource` is described in `gmxCodelists.xml` as "identifies data source
-  eg. aggregated/derived"
-
-TODO: update the thesaurus reference to match JCU's GeoNetwork URLs.
-
-    <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-            <gmd:keyword>
-                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
-            </gmd:keyword>
-            <gmd:type>
-                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="discipline">
-                    discipline
-                </gmd:MD_KeywordTypeCode>
-            </gmd:type>
-            <gmd:thesaurusName>
-                <gmd:CI_Citation>
-                    <gmd:title>
-                        <gco:CharacterString>Global Change Master Directory Earth Science Keywords</gco:CharacterString>
-                    </gmd:title>
-                    <gmd:date gco:nilReason="unknown"/>
-                    <gmd:edition>
-                        <gco:CharacterString>bc44a748-f1a1-4775-9395-a4a6d8bb8df6:conceptscheme:GCMD Keywords, Version 5.3.8</gco:CharacterString>
-                    </gmd:edition>
-                    <gmd:editionDate gco:nilReason="unknown"/>
-                    <gmd:identifier>
-                        <gmd:MD_Identifier>
-                            <gmd:code>
-                                <gmx:Anchor
-                                    xlink:href="http://yourgeonetwork.com/geonetwork/srv/en/?uuid=bc44a748-f1a1-4775-9395-a4a6d8bb8df6"
-                                >
-                                    geonetwork.thesaurus.register.discipline.bc44a748-f1a1-4775-9395-a4a6d8bb8df6
-                                </gmx:Anchor>
-                            </gmd:code>
-                        </gmd:MD_Identifier>
-                    </gmd:identifier>
-                    <gmd:otherCitationDetails>
-                        <gco:CharacterString>
-                            Olsen, L.M., G. Major, K. Shein,
-                            J. Scialdone, S. Ritz, T. Stevens, M. Morahan, A. Aleman,
-                            R. Vogel, S. Leicester, H. Weir, M. Meaux, S. Grebas,
-                            C.Solomon, M. Holland, T. Northcutt, R. A. Restrepo,
-                            R. Bilodeau,2012. NASA/Global Change Master Directory (GCMD)
-                            Earth Science Keywords
-                        </gco:CharacterString>
-                    </gmd:otherCitationDetails>
-                </gmd:CI_Citation>
-            </gmd:thesaurusName>
-        </gmd:MD_Keywords>
-    </gmd:descriptiveKeywords>
-
-Example from eAtlas shows multiple keywords with a pipe separator; the ISO
-standard allows multiple `keyword` tags, which is a more correct way to have
-multiple keywords.
-
-The `marine` keyword is (AFACT) the trigger for AODN harvesting of the record,
-which is probably why eAtlas don't include that particular keyword in their
-idiosyncratic pipe separated list.
-
-TODO: check that GeoNetwork handles multiple `keyword` tags properly.
-
-    <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-            <gmd:keyword>
-                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
-            </gmd:keyword>
-            <gmd:type>
-                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-            </gmd:type>
-        </gmd:MD_Keywords>
-    </gmd:descriptiveKeywords>
-    <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-            <gmd:keyword>
-                <gco:CharacterString>marine</gco:CharacterString>
-            </gmd:keyword>
-            <gmd:type>
-                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-            </gmd:type>
-        </gmd:MD_Keywords>
-    </gmd:descriptiveKeywords>
-
-In all the keyword examples, the `codeList` attribute should be set to
-`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode`
-to be valid MCP 2.
 
 
 #### Dataset usage
@@ -972,12 +854,12 @@ the codeList and asked for clarification).
                     </gmd:extent>
                     <mcp:currency>
                         <mcp:MD_CurrencyTypeCode
-                            codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/resources/Codelist/gmxCodelists.xml#MD_CurrencyTypeCode"
+                            codeList="http://schemas.aodn.org.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_CurrencyTypeCode"
                             codeListValue="historical">historical</mcp:MD_CurrencyTypeCode>
                     </mcp:currency>
                     <mcp:temporalAggregation>
                         <mcp:MD_TemporalAggregationUnitCode
-                            codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/resources/Codelist/gmxCodelists.xml#MD_TemporalAggregationUnitCode"
+                            codeList="http://schemas.aodn.org.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_TemporalAggregationUnitCode"
                             codeListValue="week">week</mcp:MD_TemporalAggregationUnitCode>
                     </mcp:temporalAggregation>
                 </mcp:EX_TemporalExtent>
@@ -992,6 +874,21 @@ to get MCP2 compliance.
 ((work in progress))
 
 ##### Description flavour
+
+Before I show you a description type of `geographicElement`, I'll close the
+current `extent` tag, and open a new one.  I can't find a reference in any
+implementation guides, but GeoNetwork seems to choke if a description is
+present with a bounding box.
+
+TODO: check GeoNetwork's tolerance of various tag combinations inside a
+single `extent`.
+
+        </gmd:EX_Extent>
+    </gmd:extent>
+    <gmd:extent>
+        <gmd:EX_Extent>
+
+Now I can include a description.  
 
 This flavour supports a textual description of the geographic extent, for
 example a state name such as "Queensland" (which you'd actually need to write
@@ -1077,6 +974,146 @@ Here's a list of some useful region types and codes; look inside a copy of
 
         </gmd:EX_Extent>
     </gmd:extent>
+
+
+### Topic and keywords
+
+Topic is mandatory.  It classifies the "theme" of the data (or "themes', you
+can have several of this tag) and should be drawn from [the
+MD_TopicCategoryCode
+list](http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopicCategoryCode),
+although in this case there is no need for a reference to the codelist URL.
+
+Datasets destined for AODN should use `oceans`.  Other alternatives are:
+
+- `biota`
+- `climatologyMeteorologyAtmosphere`, `environment`
+- `boundaries`, `planningCadastre`, `location`
+- `economy`, `farming`, `health`, `society`
+- `elevation`, `geoscientificInformation`
+- `imageryBaseMapsEarthCover`
+- `intelligenceMilitary`
+- `inlandWaters`
+- `structure`, `transportation`, `utilitiesCommunication`
+
+
+    <gmd:topicCategory>
+        <gmd:MD_TopicCategoryCode>oceans</gmd:MD_TopicCategoryCode>
+    </gmd:topicCategory>
+
+Keywords are optional.  They must be selected from a [NASA keyword
+list](http://gcmd.nasa.gov/Resources/valids/archives/keyword_list.html), and
+the MCP standard advises that the `thesaurusName` tag and its children be
+supplied identifying the keyword list.  The first example below shows the
+recommended form; the second example shows two keywords from eAtlas that do
+not include the thesaurus reference.
+
+In addition to the thesaurus reference, each set of keywords can have a `type`
+selected from another word list.  The types are:
+
+* `theme` is the subject or topic, and is the one you probably want most of
+  the time
+* `discipline` meaning a branch of study
+* `place` a location
+* `stratum` a deposited physical layer
+* `temporal` names a time period (noting that
+  [lunchtime is an illusion](http://www.goodreads.com/quotes/6344-time-is-an-illusion-lunchtime-doubly-so))
+* `taxon` means "a taxonomy" according to `gmxCodelists.xml`, which I think
+  means the keyword names a specific taxon (rather than the more silly
+  interpretation of *taxonomy* as being "Linnaean" or something like that)
+* `equipment` names gear used to collect data
+* `dataSource` is described in `gmxCodelists.xml` as "identifies data source
+  eg. aggregated/derived"
+
+TODO: update the thesaurus reference to match JCU's GeoNetwork URLs.
+
+    <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+            <gmd:keyword>
+                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
+            </gmd:keyword>
+            <gmd:type>
+                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="discipline">
+                    discipline
+                </gmd:MD_KeywordTypeCode>
+            </gmd:type>
+            <gmd:thesaurusName>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>Global Change Master Directory Earth Science Keywords</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date gco:nilReason="unknown"/>
+                    <gmd:edition>
+                        <gco:CharacterString>bc44a748-f1a1-4775-9395-a4a6d8bb8df6:conceptscheme:GCMD Keywords, Version 5.3.8</gco:CharacterString>
+                    </gmd:edition>
+                    <gmd:editionDate gco:nilReason="unknown"/>
+                    <gmd:identifier>
+                        <gmd:MD_Identifier>
+                            <gmd:code>
+                                <gmx:Anchor
+                                    xlink:href="http://yourgeonetwork.com/geonetwork/srv/en/?uuid=bc44a748-f1a1-4775-9395-a4a6d8bb8df6"
+                                >
+                                    geonetwork.thesaurus.register.discipline.bc44a748-f1a1-4775-9395-a4a6d8bb8df6
+                                </gmx:Anchor>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmd:identifier>
+                    <gmd:otherCitationDetails>
+                        <gco:CharacterString>
+                            Olsen, L.M., G. Major, K. Shein,
+                            J. Scialdone, S. Ritz, T. Stevens, M. Morahan, A. Aleman,
+                            R. Vogel, S. Leicester, H. Weir, M. Meaux, S. Grebas,
+                            C.Solomon, M. Holland, T. Northcutt, R. A. Restrepo,
+                            R. Bilodeau,2012. NASA/Global Change Master Directory (GCMD)
+                            Earth Science Keywords
+                        </gco:CharacterString>
+                    </gmd:otherCitationDetails>
+                </gmd:CI_Citation>
+            </gmd:thesaurusName>
+        </gmd:MD_Keywords>
+    </gmd:descriptiveKeywords>
+
+Example from eAtlas shows multiple keywords with a pipe separator; the ISO
+standard allows multiple `keyword` tags, which is a more correct way to have
+multiple keywords.
+
+The `marine` keyword is (AFACT) the trigger for AODN harvesting of the record,
+which is probably why eAtlas don't include that particular keyword in their
+idiosyncratic pipe separated list.
+
+TODO: check that GeoNetwork handles multiple `keyword` tags properly.
+
+    <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+            <gmd:keyword>
+                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
+            </gmd:keyword>
+            <gmd:type>
+                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+            </gmd:type>
+        </gmd:MD_Keywords>
+    </gmd:descriptiveKeywords>
+    <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+            <gmd:keyword>
+                <gco:CharacterString>marine</gco:CharacterString>
+            </gmd:keyword>
+            <gmd:type>
+                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+            </gmd:type>
+        </gmd:MD_Keywords>
+    </gmd:descriptiveKeywords>
+
+In all the keyword examples, the `codeList` attribute should be set to
+`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode`
+to be valid MCP 2.
+
+
+
+
+
+
+
 
 (End of identification info, and restoring original indent level)
 
@@ -1369,16 +1406,22 @@ This optional element describes the quality of the data in the dataset.
             <gmd:DQ_DataQuality>
 
 You can specify the scope of this statement; an eAtlas example used a empty
-element here, which I assume implies "all the data".
+element here (i.e. `<gmd:DQ_Scope />`), which GeoNetwork doesn't accept.  For
+anything we're using MCP2.0 for, you'll almost certainly want `dataset`.
 
                 <gmd:scope>
-                    <gmd:DQ_Scope />
+                    <gmd:DQ_Scope>
+                        <gmd:level>
+                            <gmd:MD_ScopeCode
+                                codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
+                                codeListValue="dataset"
+                            />
+                        </gmd:level>
+                    </gmd:DQ_Scope>
                 </gmd:scope>
 
 `report` covers qualitative quality information.  You need either this or
 `lineage`, or both.
-
-
 
 `lineage` and the `statement` tag it contains should be a brief history of
 the resource, the idea being that this is non-quantitative claims about the
