@@ -17,8 +17,8 @@ shell script.
 Major sources are:
 
 * the [MCP Manual 2.0
-    Draft](http://bluenet3.antcrc.utas.edu.au/mcp-doc-20-draft/), which
-    unfortunately has some broken links
+  Draft](http://bluenet3.antcrc.utas.edu.au/mcp-doc-20-draft/), which
+  unfortunately has some broken links
 * [ANZLIC profiles](http://asdd.ga.gov.au/asdd/profileinfo/)
 * ANZLIC Metadata Profile Guidelines 1.0
 * Example records from GeoNetwork
@@ -37,22 +37,29 @@ The first item in the metadata record is a standard XML declaration.
 This identifies all the namespaces etc.
 
     <mcp:MD_Metadata
-        xmlns:mcp="http://schemas.aodn.org.au/mcp-2.0"
+        xmlns:mcp="http://bluenet3.antcrc.utas.edu.au/mcp"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:gml="http://www.opengis.net/gml"
         xmlns:gts="http://www.isotc211.org/2005/gts"
         xmlns:gco="http://www.isotc211.org/2005/gco"
         xmlns:gmd="http://www.isotc211.org/2005/gmd"
+        xmlns:gmx="http://www.isotc211.org/2005/gmx"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns:geonet="http://www.fao.org/geonetwork"
         gco:isoType="gmd:MD_Metadata"
         xsi:schemaLocation="
             http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd
+            http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd
             http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd
-            http://schemas.aodn.org.au/mcp-2.0 file:///Users/pvrdwb/jcu/aodn-schema-plugins/iso19139.mcp-2.0/schema.xsd
+            http://bluenet3.antcrc.utas.edu.au/mcp http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema.xsd
         "
     >
 
-Note that the eventually-correct schema location line in the `schemaLocation`
+Note that the `mcp` namespace should be:
+
+* `xmlns:mcp="http://schemas.aodn.org.au/mcp-2.0"`
+
+and the eventually-correct schema location line in the `schemaLocation`
 attribute for mcp-2.0 should be something like:
 
 * `http://schemas.aodn.org.au/mcp-2.0 http://schemas.aodn.org.au/mcp-2.0/schema.xsd`
@@ -65,15 +72,9 @@ Once I complete this example and confirm that the produced XML is valid, I'll
 create a MCP2 version that switches in all the MCP2 paths, and test that just
 against GeoNetwork's importer.
 
-The XML example provided by asdd.ga.gov.au also included namespaces for:
+The XML example provided by asdd.ga.gov.au also included a namespace for:
 
 * `xmlns:dwc="http://rs.tdwg.org/dwc/terms/"`
-* `xmlns:gmx="http://www.isotc211.org/2005/gmx"`
-* `xmlns:xlink="http://www.w3.org/1999/xlink"`
-
-And additional `xsi:schemaLocation` schema location for `gmx`:
-
-* `http://www.isotc211.org/2005/gmx    http://www.isotc211.org/2005/gmx/gmx.xsd`
 
 [This page](http://bluenet3.antcrc.utas.edu.au/mcp-doc-20-draft/introduction.html)
 is I think the most authoritative source on MCP2, and includes a complete
@@ -363,7 +364,7 @@ If there are common acronyms or other alternate titles, include any number of
             </gmd:title>
             <gmd:alternateTitle>
                 <gco:CharacterString>GBRDD</gco:CharacterString>
-            </gmd:AlternateTitle>
+            </gmd:alternateTitle>
 
 The date used for citing the data, which is usually a publication date. Once
 again, this uses 1.5-eperimental code lists; substitute
@@ -1289,14 +1290,22 @@ The `description` describes what's linked to.  eAtlas puts article titles here
 when linking to articles in ePrints or elsewhere.  You can describe file
 formats here too.
 
+
                                 <gmd:description>
                                     <gco:CharacterString>WMS layer of this dataset</gco:CharacterString>
                                 </gmd:description>
                             </gmd:CI_OnlineResource>
                         </gmd:onLine>
 
+I've removed some extraneous namespace attributes from these eAtlas examples.
+In the first example below, `gmd:onLine` tag looked like this: `<gmd:onLine xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:xlink="http://www.w3.org/1999/xlink">`
+...even though `gmx` is already declared, and there were no `srv` or `xlink`
+prefixes.
 
-                        <gmd:onLine xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:xlink="http://www.w3.org/1999/xlink">
+The `gmd:linkage` tag in the second example below also had those same
+unnecessary namespaces.
+
+                        <gmd:onLine>
                             <gmd:CI_OnlineResource>
                                 <gmd:linkage>
                                     <gmd:URL>http://eatlas.org.au/data/uuid/c4d8abcc-650c-46de-ac06-e91985b368e7</gmd:URL>
@@ -1312,7 +1321,7 @@ formats here too.
 
                         <gmd:onLine>
                             <gmd:CI_OnlineResource>
-                                <gmd:linkage xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <gmd:linkage>
                                     <gmd:URL>http://eprints.jcu.edu.au/2678/</gmd:URL>
                                 </gmd:linkage>
                                 <gmd:protocol>
@@ -1480,11 +1489,11 @@ HTML_HEADER="./header.html"
 HTML_FOOTER="./footer.html"
 
 if [ $# -eq 0 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-    echo "deliterate - takes literate Markdown doc, renders to html, also extracts code."
-    echo "Specify input file as first argument.  Outputs HTML and XML."
-    echo "Example: ./deliterate.sh filename.md"
-    echo "         (reads filename.md, creates filename.md.html and filename.md.xml)"
-    exit 1
+  echo "deliterate - takes literate Markdown doc, renders to html, also extracts code."
+  echo "Specify input file as first argument.  Outputs HTML and XML."
+  echo "Example: ./deliterate.sh filename.md"
+  echo "         (reads filename.md, creates filename.md.html and filename.md.xml)"
+  exit 1
 fi
 
 # keep lines that start with four spaces, then remove the four leading spaces.

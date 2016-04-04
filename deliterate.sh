@@ -11,10 +11,16 @@ if [ $# -eq 0 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     exit 1
 fi
 
-# keep lines that start with four spaces, then remove the four leading spaces.
-sed -n -e "/^    /p" < "$1" | sed -e "s/^    //" > "$1.xml"
+# use sed to...
+#    keep lines that start  |   remove the four   >   save to
+#      with four spaces,    |   leading spaces    >  output file.
+sed -n -e "/^    /p" < "$1" | sed -e "s/^    //"  >  "$1.xml"
 
-# also render markdown to html
+echo "wrote: $1.xml"
+
+# also render markdown to html -- cat the header and footer in as well
 cat "$HTML_HEADER" > "$1.html"
 "$MD_CONVERT_COMMAND" < "$1" >> "$1.html"
 cat "$HTML_FOOTER" >> "$1.html"
+
+echo "wrote: $1.html"
