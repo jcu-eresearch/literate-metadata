@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                        xmlns:saxon="http://saxon.sf.net/"
+                        xmlns:schold="http://www.ascc.net/xml/schematron"
+                        xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                        xmlns:gml="http://www.opengis.net/gml"
+                        xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                        xmlns:gco="http://www.isotc211.org/2005/gco"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        title="Schematron validation"
+                        schemaVersion=""><!--   
+   
+   
+ -->
+   <svrl:ns-prefix-in-attribute-values uri="http://www.opengis.net/gml" prefix="gml"/>
+   <svrl:ns-prefix-in-attribute-values uri="http://www.isotc211.org/2005/gmd" prefix="gmd"/>
+   <svrl:ns-prefix-in-attribute-values uri="http://www.isotc211.org/2005/gco" prefix="gco"/>
+   <svrl:ns-prefix-in-attribute-values uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="name required"/>
+   <svrl:fired-rule context="//gmd:CI_ResponsibleParty"/>
+   <svrl:fired-rule context="//gmd:CI_ResponsibleParty"/>
+   <svrl:fired-rule context="//gmd:CI_ResponsibleParty"/>
+   <svrl:fired-rule context="//gmd:CI_ResponsibleParty"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="otherConstraints required if otherRestrictions"/>
+   <svrl:fired-rule context="//gmd:MD_LegalConstraints"/>
+   <svrl:fired-rule context="//gmd:MD_LegalConstraints"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="units required for values"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="description required if no sourceExtent"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="sourceExtent required if no description"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="content mandatory for dataset or series"/>
+   <svrl:fired-rule context="//gmd:DQ_DataQuality"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="source required if no statement or processStep"/>
+   <svrl:fired-rule context="//gmd:LI_Lineage"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="processStep required if no statement or source"/>
+   <svrl:fired-rule context="//gmd:LI_Lineage"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="dataset must have report or lineage"/>
+   <svrl:fired-rule context="//gmd:DQ_DataQuality"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="levelDescription needed unless dataset or series"/>
+   <svrl:fired-rule context="//gmd:DQ_Scope"/>
+   <svrl:failed-assert test="gmd:level/gmd:MD_ScopeCode/@codeListValue='dataset' or gmd:level/gmd:MD_ScopeCode/@codeListValue='series' or (gmd:levelDescription and ((normalize-space(gmd:levelDescription) ne '') or (gmd:levelDescription/gmd:MD_ScopeDescription) or (gmd:levelDescription/@gco:nilReason = $nilReasonList)))"
+                       location="/*:MD_Metadata[namespace-uri()='http://schemas.aodn.org.au/mcp-2.0'][1]/*:dataQualityInfo[namespace-uri()='http://www.isotc211.org/2005/gmd'][1]/*:DQ_DataQuality[namespace-uri()='http://www.isotc211.org/2005/gmd'][1]/*:scope[namespace-uri()='http://www.isotc211.org/2005/gmd'][1]/*:DQ_Scope[namespace-uri()='http://www.isotc211.org/2005/gmd'][1]">
+      <svrl:text>"levelDescription" is mandatory if "level"
+notEqual 'dataset' or 'series'</svrl:text>
+   </svrl:failed-assert>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="units required for density values"/>
+   <svrl:fired-rule context="//gmd:MD_Medium"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="MD_Format required"/>
+   <svrl:fired-rule context="//gmd:MD_Distribution"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="element required"/>
+   <svrl:fired-rule context="//gmd:EX_Extent"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="character set indication"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="dataset must have extent"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="dataset or series must have topicCategory"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="Either &#34;aggregateDataSetName&#34; or &#34;aggregateDataSetIdentifier&#34; must be documented"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="language indication"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="character set indication"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="detail required unless simple term"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="condition"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="domainCode"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="shortName"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        name="checkPointDescription required if available"/>
+</svrl:schematron-output>

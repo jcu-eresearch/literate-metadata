@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                        xmlns:saxon="http://saxon.sf.net/"
+                        xmlns:schold="http://www.ascc.net/xml/schematron"
+                        xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                        xmlns:gml="http://www.opengis.net/gml"
+                        xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                        title="Check that the codeList exists and that the codeListValue is in&#xA;        that codeList"
+                        schemaVersion=""><!--   
+   
+   
+ -->
+   <svrl:ns-prefix-in-attribute-values uri="http://www.opengis.net/gml" prefix="gml"/>
+   <svrl:ns-prefix-in-attribute-values uri="http://www.isotc211.org/2005/gmx" prefix="gmx"/>
+   <svrl:active-pattern document="file:/Users/pvrdwb/jcu/literate-metadata/_validation/mcp20/tests/../../../mcp/annotated-mcp.md.xml"
+                        id="checkCodeList"
+                        name="checkCodeList"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+   <svrl:fired-rule context="//*[@codeList]"/>
+</svrl:schematron-output>
