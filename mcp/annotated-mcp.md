@@ -621,105 +621,6 @@ As always, for mcp2, the `codelist` URL should be `http://schemas.aodn.org.au/mc
     </gmd:characterSet>
 
 
-### Thumbnails
-
-You can optionally supply thumbnails for the dataset by providing
-`graphicOverview` tags.  Only the `fileName` tag is required inside
-`graphicOverview > MD_BrowseGraphic`.
-
-Samples here are from the ASDD example (which uses a full URL for the
-thumbnail) and eAtlas (which uses a plain filename).  I'm not sure how
-GeoNetwork goes about locating the file.
-
-TODO: investigate how GeoNetwork resolves thumbnail file paths.
-
-    <gmd:graphicOverview>
-        <gmd:MD_BrowseGraphic>
-            <gmd:fileName>
-                <gco:CharacterString>http://www.ga.gov.au/servlet/BigObjFileManager?bigobjid=GA3349</gco:CharacterString>
-            </gmd:fileName>
-            <gmd:fileDescription>
-                <gco:CharacterString>Map index of Australia 1:1,000,000</gco:CharacterString>
-            </gmd:fileDescription>
-            <gmd:fileType>
-                <gco:CharacterString>GIF</gco:CharacterString>
-            </gmd:fileType>
-        </gmd:MD_BrowseGraphic>
-    </gmd:graphicOverview>
-
-    <gmd:graphicOverview>
-        <gmd:MD_BrowseGraphic>
-            <gmd:fileName>
-                <gco:CharacterString>Preview-map_s.png</gco:CharacterString>
-            </gmd:fileName>
-            <gmd:fileDescription>
-                <gco:CharacterString>thumbnail</gco:CharacterString>
-            </gmd:fileDescription>
-            <gmd:fileType>
-                <gco:CharacterString>png</gco:CharacterString>
-            </gmd:fileType>
-        </gmd:MD_BrowseGraphic>
-    </gmd:graphicOverview>
-
-
-#### Dataset usage
-
-The standard allows a tag `resourceSpecificUsage` that can describe ways the
-dataset has been used, allowing contact details to talk to the data users.  
-I haven't included this tag; refer to
-[an ASDD sample](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
-for a usage example.
-
-
-#### Constraints on the dataset
-
-These constraints are usually related to copyright and licensing, but can also
-include usage constraints like not appropriate for navigation, or national
-security and secrecy constraints.  The `resourceConstraints` tag is optional
-and can occur multiple times.
-
-This example from ASDD shows a standard copyright claim with the corresponding
-type code.  Once again, this uses an old `codeList` to allow for validation,
-but should point at
-`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode`
-for mcp2 compliance.
-
-    <gmd:resourceConstraints>
-        <gmd:MD_LegalConstraints>
-            <gmd:useLimitation>
-                <gco:CharacterString>Copyright Commonwealth of Australia  (Geoscience Australia) 2008</gco:CharacterString>
-            </gmd:useLimitation>
-            <gmd:useConstraints>
-                <gmd:MD_RestrictionCode
-                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
-                    codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
-            </gmd:useConstraints>
-        </gmd:MD_LegalConstraints>
-    </gmd:resourceConstraints>
-
-This example also from ASDD shows a CC-BY-ND license.
-
-TODO: update this example so it's properly referring to the currently
-recommended CC licenses.
-
-    <gmd:resourceConstraints>
-        <gmd:MD_LegalConstraints>
-            <gmd:useLimitation>
-                <gco:CharacterString>
-                    http://i.creativecommons.org/l/by/2.5/au/80x15.png
-                    This product is released under the
-                    Creative Commons Attribution 2.5 Australia Licence (http://creativecommons.org/licenses/by-nd/2.5/au/)
-                </gco:CharacterString>
-            </gmd:useLimitation>
-            <gmd:accessConstraints>
-                <gmd:MD_RestrictionCode
-                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
-                    codeListValue="license">license</gmd:MD_RestrictionCode>
-            </gmd:accessConstraints>
-        </gmd:MD_LegalConstraints>   
-    </gmd:resourceConstraints>
-
-
 #### Spatial and temporal extent of the data
 
 This mandatory element describes what the data covers, both via a bounding box
@@ -749,6 +650,7 @@ corresponding time period.
 
     <gmd:extent>
         <gmd:EX_Extent>
+
 
 ##### Geographic flavour
 
@@ -869,9 +771,11 @@ As ever, switch the `codeList` values to
 `http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml`
 to get MCP2 compliance.
 
+
 ##### Vertical flavour
 
 ((work in progress))
+
 
 ##### Description flavour
 
@@ -1109,10 +1013,103 @@ In all the keyword examples, the `codeList` attribute should be set to
 to be valid MCP 2.
 
 
+### Thumbnails
+
+You can optionally supply thumbnails for the dataset by providing
+`graphicOverview` tags.  Only the `fileName` tag is required inside
+`graphicOverview > MD_BrowseGraphic`.
+
+Samples here are from the ASDD example (which uses a full URL for the
+thumbnail) and eAtlas (which uses a plain filename).  I'm not sure how
+GeoNetwork goes about locating the file.
+
+TODO: investigate how GeoNetwork resolves thumbnail file paths.
+
+    <gmd:graphicOverview>
+        <gmd:MD_BrowseGraphic>
+            <gmd:fileName>
+                <gco:CharacterString>http://www.ga.gov.au/servlet/BigObjFileManager?bigobjid=GA3349</gco:CharacterString>
+            </gmd:fileName>
+            <gmd:fileDescription>
+                <gco:CharacterString>Map index of Australia 1:1,000,000</gco:CharacterString>
+            </gmd:fileDescription>
+            <gmd:fileType>
+                <gco:CharacterString>GIF</gco:CharacterString>
+            </gmd:fileType>
+        </gmd:MD_BrowseGraphic>
+    </gmd:graphicOverview>
+
+    <gmd:graphicOverview>
+        <gmd:MD_BrowseGraphic>
+            <gmd:fileName>
+                <gco:CharacterString>Preview-map_s.png</gco:CharacterString>
+            </gmd:fileName>
+            <gmd:fileDescription>
+                <gco:CharacterString>thumbnail</gco:CharacterString>
+            </gmd:fileDescription>
+            <gmd:fileType>
+                <gco:CharacterString>png</gco:CharacterString>
+            </gmd:fileType>
+        </gmd:MD_BrowseGraphic>
+    </gmd:graphicOverview>
 
 
+#### Dataset usage
+
+The standard allows a tag `resourceSpecificUsage` that can describe ways the
+dataset has been used, allowing contact details to talk to the data users.  
+I haven't included this tag; refer to
+[an ASDD sample](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
+for a usage example.
 
 
+#### Constraints on the dataset
+
+These constraints are usually related to copyright and licensing, but can also
+include usage constraints like not appropriate for navigation, or national
+security and secrecy constraints.  The `resourceConstraints` tag is optional
+and can occur multiple times.
+
+This example from ASDD shows a standard copyright claim with the corresponding
+type code.  Once again, this uses an old `codeList` to allow for validation,
+but should point at
+`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode`
+for mcp2 compliance.
+
+    <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+            <gmd:useLimitation>
+                <gco:CharacterString>Copyright Commonwealth of Australia  (Geoscience Australia) 2008</gco:CharacterString>
+            </gmd:useLimitation>
+            <gmd:useConstraints>
+                <gmd:MD_RestrictionCode
+                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
+                    codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
+            </gmd:useConstraints>
+        </gmd:MD_LegalConstraints>
+    </gmd:resourceConstraints>
+
+This example also from ASDD shows a CC-BY-ND license.
+
+TODO: update this example so it's properly referring to the currently
+recommended CC licenses.
+
+    <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+            <gmd:useLimitation>
+                <gco:CharacterString>
+                    http://i.creativecommons.org/l/by/2.5/au/80x15.png
+                    This product is released under the
+                    Creative Commons Attribution 2.5 Australia Licence (http://creativecommons.org/licenses/by-nd/2.5/au/)
+                </gco:CharacterString>
+            </gmd:useLimitation>
+            <gmd:accessConstraints>
+                <gmd:MD_RestrictionCode
+                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
+                    codeListValue="license">license</gmd:MD_RestrictionCode>
+            </gmd:accessConstraints>
+        </gmd:MD_LegalConstraints>   
+    </gmd:resourceConstraints>
 
 
 (End of identification info, and restoring original indent level)
@@ -1451,6 +1448,13 @@ refer to the [ANZLIC guidelines](http://www.anzlic.gov.au/sites/default/files/fi
                     </gmd:LI_Lineage>
                 </gmd:lineage>
 
+If you really need to, you can supply a blank `statement` in your `lineage`
+like this:
+
+`<gmd:statement gco:nilReason="missing"><gco:CharacterString/></gmd:statement>`
+
+..but the MCP docs *strongly* recommend supplying proper data quality
+information.
 
             </gmd:DQ_DataQuality>
         </gmd:dataQualityInfo>
