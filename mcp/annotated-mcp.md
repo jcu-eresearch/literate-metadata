@@ -167,7 +167,8 @@ The hierarchyLevel is "dataset", and again, note the codeList is pointing to
 ### Contacts connected to this metadata record
 
 ISO19115 makes it mandatory to supply a contact responsible for the
-**metadata record**.  The actual data here is from the [ASDD example
+**metadata record**.  So it could be an eResearch staff member rather than
+an academic.  The actual data here is from the [ASDD example
 record](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
 from the [ASDD site](http://asdd.ga.gov.au/asdd/profileinfo/).
 
@@ -334,9 +335,88 @@ the purposes of discoverability, citation, etc.
     <gmd:identificationInfo>
         <mcp:MD_DataIdentification gco:isoType="gmd:MD_DataIdentification">
 
-Also note that to save some indenting space, I'm resetting the indentation for
+To save some indenting space, I'm resetting the indentation for
 the content of this `MD_DataIdentification` tag -- the following XML is two
 levels less indented than you would expect.
+
+**Important:** Tag ordering matters here.  Despite this being
+standards-controlled XML, the One True Consumer of this XML is GeoNetwork, and
+GeoNetwork requires the contents of this tag to be in the right order.
+
+WORK IN PROGRESS: I think this is the right order.  Not all of these are
+represented in this document, but I'm listing the full set here because it
+was hard to find (it starts at about line 2225 in
+[this XSLT document](https://github.com/aodn/schema-plugins/blob/master/iso19139.mcp-2.0/present/metadata-edit.xsl)):
+
+Update: this list disagrees with a partial list included in software
+requirements supplied by Roger Proctor.  I've emailed Roger back asking
+for a full list.
+
+My list:
+
+1. `citation`
+1. `abstract`
+1. `purpose`
+1. `credit`
+1. `status`
+1. `pointOfContact`
+1. `resourceMaintenance`
+1. `graphicOverview`
+1. `resourceFormat`
+1. `descriptiveKeywords`
+1. `resourceSpecificUsage`
+1. `resourceConstraints`
+1. `aggregationInfo`
+1. `spatialRepresentationType`
+1. `spatialResolution`
+1. `language`
+1. `characterSet`
+1. `topicCategory`
+1. `environmentDescription`
+1. `extent`
+1. `supplementalInformation`
+1. `samplingFrequency`
+1. `sensor`
+1. `sensorCalibrationProcess`
+1. `dataParameters`
+
+
+Roger's list:
+
+1. `citation`
+1. `abstract`
+1. `purpose`
+1. `status`
+1. `resourceMaintenance`
+1. `resourceFormat`
+1. `descriptiveKeywords`
+1. `resourceConstraints`
+1. `language`
+1. `characterSet`
+1. `topicCategory`
+1. `extent`
+1. `samplingFrequency`
+1. `dataParameters`
+1. `pointOfContact`
+1. `supplementalInformation`
+1. `credit`
+
+Update: Kim Finney replied to my request to Roger, and pointed to this list:
+
+1. `citation`
+1. `abstract`
+1. `purpose`
+1. `credit`
+1. `status`
+1. `pointOfContact`
+1. `resourceMaintenance`
+1. `graphicOverview`
+1. `resourceFormat`
+1. `descriptiveKeywords`
+1. `resourceSpecificUsage`
+1. `resourceConstraints`
+1. `aggregationInfo`
+
 
 
 #### Citation
@@ -562,7 +642,7 @@ how to get the dataset; here, you probably want to stick with
     </gmd:citation>
 
 
-#### Abstract, purpose, and status
+#### Abstract, purpose, credit, and status
 
 The abstract is mandatory, describes the content of the data being described,
 and should be carefully composed to give a reader a good sense of fitness for
@@ -593,6 +673,17 @@ collection.
         </gco:CharacterString>
     </gmd:purpose>
 
+The credit is optional and allow recognition of people and organisations who
+contributed to the dataset.  MCP 2 guidelines recommend including this tag
+but none of the examples I looked at had one.  Here's what I think it should
+look like.
+
+    <gmd:credit>
+      <gco:CharacterString>
+        Charles Babbage, for starting it all
+      </gco:CharacterString>
+    </gmd:credit>
+
 The status is optional and captures the state of the dataset collection effort.
 Generally you'll use `completed` for most datasets, and `onGoing` for datasets
 that grow forever.
@@ -604,12 +695,335 @@ that grow forever.
     </gmd:status>
 
 
-### Language and character set for the data
+#### Point of contact
+
+Who to talk to about the resource.  Elsewhere you specify the entity
+responsible for the metadata record, and the entity that manages access
+to the dataset; this is the entity who actually knows about the dataset.
+This is mandatory in MCP (it was optional in pre-MCP standards).
+
+You've seen the `CI_ResponsibleParty` tag and its contents already; this
+time I'll supply a "blank" version (and I'm leaving off fax.  I'll leave
+adding it back when necessary as an exercise for the reader).
+
+    <gmd:pointOfContact>
+      <gmd:CI_ResponsibleParty>
+
+You only need supply one of `individualName`, `organisationName`, or
+`positionName`; hopefully for this field we can supply an actual person.
+
+        <gmd:individualName>
+          <gco:CharacterString>Ada Lovelace</gco:CharacterString>
+        </gmd:individualName>
+        <gmd:organisationName gco:nilReason="missing">
+          <gco:CharacterString/>
+        </gmd:organisationName>
+        <gmd:positionName gco:nilReason="missing">
+          <gco:CharacterString/>
+        </gmd:positionName>
+
+        <gmd:contactInfo>
+          <gmd:CI_Contact>
+            <gmd:phone>
+              <gmd:CI_Telephone>
+                <gmd:voice gco:nilReason="missing">
+                  <gco:CharacterString/>
+                </gmd:voice>
+              </gmd:CI_Telephone>
+            </gmd:phone>
+            <gmd:address>
+              <gmd:CI_Address>
+                <gmd:deliveryPoint gco:nilReason="missing">
+                  <gco:CharacterString/>
+                </gmd:deliveryPoint>
+                <gmd:city gco:nilReason="missing">
+                  <gco:CharacterString/>
+                </gmd:city>
+                <gmd:administrativeArea gco:nilReason="missing">
+                  <gco:CharacterString/>
+                </gmd:administrativeArea>
+                <gmd:postalCode gco:nilReason="missing">
+                  <gco:CharacterString/>
+                </gmd:postalCode>
+                <gmd:country gco:nilReason="missing">
+                  <gco:CharacterString/>
+                </gmd:country>
+                <gmd:electronicMailAddress gco:nilReason="missing">
+                  <gco:CharacterString/>
+                </gmd:electronicMailAddress>
+              </gmd:CI_Address>
+            </gmd:address>
+          </gmd:CI_Contact>
+        </gmd:contactInfo>
+
+
+
+        <gmd:role>
+          <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+        </gmd:role>
+
+      </gmd:CI_ResponsibleParty>
+    </gmd:pointOfContact>
+
+#### resourceMaintenance
+
+work in progress - optional field
+
+
+#### Thumbnails
+
+You can optionally supply thumbnails for the dataset by providing
+`graphicOverview` tags.  Only the `fileName` tag is required inside
+`graphicOverview > MD_BrowseGraphic`.
+
+Samples here are from the ASDD example (which uses a full URL for the
+thumbnail) and eAtlas (which uses a plain filename).  I'm not sure how
+GeoNetwork goes about locating the file.
+
+TODO: investigate how GeoNetwork resolves thumbnail file paths.
+
+<pre>
+.    <gmd:graphicOverview>
+.        <gmd:MD_BrowseGraphic>
+.            <gmd:fileName>
+.                <gco:CharacterString>http://www.ga.gov.au/servlet/BigObjFileManager?bigobjid=GA3349</gco:CharacterString>
+.            </gmd:fileName>
+.            <gmd:fileDescription>
+.                <gco:CharacterString>Map index of Australia 1:1,000,000</gco:CharacterString>
+.            </gmd:fileDescription>
+.            <gmd:fileType>
+.                <gco:CharacterString>GIF</gco:CharacterString>
+.            </gmd:fileType>
+.        </gmd:MD_BrowseGraphic>
+.    </gmd:graphicOverview>
+.
+.    <gmd:graphicOverview>
+.        <gmd:MD_BrowseGraphic>
+.            <gmd:fileName>
+.                <gco:CharacterString>Preview-map_s.png</gco:CharacterString>
+.            </gmd:fileName>
+.            <gmd:fileDescription>
+.                <gco:CharacterString>thumbnail</gco:CharacterString>
+.            </gmd:fileDescription>
+.            <gmd:fileType>
+.                <gco:CharacterString>png</gco:CharacterString>
+.            </gmd:fileType>
+.        </gmd:MD_BrowseGraphic>
+.    </gmd:graphicOverview>
+</pre>
+
+
+    <gmd:graphicOverview>
+        <gmd:MD_BrowseGraphic>
+            <gmd:fileName>
+                <gco:CharacterString>http://www.ga.gov.au/servlet/BigObjFileManager?bigobjid=GA3349</gco:CharacterString>
+            </gmd:fileName>
+            <gmd:fileDescription>
+                <gco:CharacterString>Map index of Australia 1:1,000,000</gco:CharacterString>
+            </gmd:fileDescription>
+            <gmd:fileType>
+                <gco:CharacterString>GIF</gco:CharacterString>
+            </gmd:fileType>
+        </gmd:MD_BrowseGraphic>
+    </gmd:graphicOverview>
+
+    <gmd:graphicOverview>
+        <gmd:MD_BrowseGraphic>
+            <gmd:fileName>
+                <gco:CharacterString>Preview-map_s.png</gco:CharacterString>
+            </gmd:fileName>
+            <gmd:fileDescription>
+                <gco:CharacterString>thumbnail</gco:CharacterString>
+            </gmd:fileDescription>
+            <gmd:fileType>
+                <gco:CharacterString>png</gco:CharacterString>
+            </gmd:fileType>
+        </gmd:MD_BrowseGraphic>
+    </gmd:graphicOverview>
+
+
+#### Resource format
+
+work in progress (optional field)
+
+
+#### Keywords
+
+Keywords are optional.  They must be selected from a [NASA keyword
+list](http://gcmd.nasa.gov/Resources/valids/archives/keyword_list.html), and
+the MCP standard advises that the `thesaurusName` tag and its children be
+supplied identifying the keyword list.  The first example below shows the
+recommended form; the second example shows two keywords from eAtlas that do
+not include the thesaurus reference.
+
+In addition to the thesaurus reference, each set of keywords can have a `type`
+selected from another word list.  The types are:
+
+* `theme` is the subject or topic, and is the one you probably want most of
+  the time
+* `discipline` meaning a branch of study
+* `place` a location
+* `stratum` a deposited physical layer
+* `temporal` names a time period (noting that
+  [lunchtime is an illusion](http://www.goodreads.com/quotes/6344-time-is-an-illusion-lunchtime-doubly-so))
+* `taxon` means "a taxonomy" according to `gmxCodelists.xml`, which I think
+  means the keyword names a specific taxon (rather than the more silly
+  interpretation of *taxonomy* as being "Linnaean" or something like that)
+* `equipment` names gear used to collect data
+* `dataSource` is described in `gmxCodelists.xml` as "identifies data source
+  eg. aggregated/derived"
+
+TODO: update the thesaurus reference to match JCU's GeoNetwork URLs.
+
+    <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+            <gmd:keyword>
+                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
+            </gmd:keyword>
+            <gmd:type>
+                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="discipline">
+                    discipline
+                </gmd:MD_KeywordTypeCode>
+            </gmd:type>
+            <gmd:thesaurusName>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>Global Change Master Directory Earth Science Keywords</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date gco:nilReason="unknown"/>
+                    <gmd:edition>
+                        <gco:CharacterString>bc44a748-f1a1-4775-9395-a4a6d8bb8df6:conceptscheme:GCMD Keywords, Version 5.3.8</gco:CharacterString>
+                    </gmd:edition>
+                    <gmd:editionDate gco:nilReason="unknown"/>
+                    <gmd:identifier>
+                        <gmd:MD_Identifier>
+                            <gmd:code>
+                                <gmx:Anchor
+                                    xlink:href="http://yourgeonetwork.com/geonetwork/srv/en/?uuid=bc44a748-f1a1-4775-9395-a4a6d8bb8df6"
+                                >
+                                    geonetwork.thesaurus.register.discipline.bc44a748-f1a1-4775-9395-a4a6d8bb8df6
+                                </gmx:Anchor>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmd:identifier>
+                    <gmd:otherCitationDetails>
+                        <gco:CharacterString>
+                            Olsen, L.M., G. Major, K. Shein,
+                            J. Scialdone, S. Ritz, T. Stevens, M. Morahan, A. Aleman,
+                            R. Vogel, S. Leicester, H. Weir, M. Meaux, S. Grebas,
+                            C.Solomon, M. Holland, T. Northcutt, R. A. Restrepo,
+                            R. Bilodeau,2012. NASA/Global Change Master Directory (GCMD)
+                            Earth Science Keywords
+                        </gco:CharacterString>
+                    </gmd:otherCitationDetails>
+                </gmd:CI_Citation>
+            </gmd:thesaurusName>
+        </gmd:MD_Keywords>
+    </gmd:descriptiveKeywords>
+
+Example from eAtlas shows multiple keywords with a pipe separator; the ISO
+standard allows multiple `keyword` tags, which is a more correct way to have
+multiple keywords.
+
+The `marine` keyword is (AFACT) the trigger for AODN harvesting of the record,
+which is probably why eAtlas don't include that particular keyword in their
+idiosyncratic pipe separated list.
+
+TODO: check that GeoNetwork handles multiple `keyword` tags properly.
+
+    <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+            <gmd:keyword>
+                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
+            </gmd:keyword>
+            <gmd:type>
+                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+            </gmd:type>
+        </gmd:MD_Keywords>
+    </gmd:descriptiveKeywords>
+    <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+            <gmd:keyword>
+                <gco:CharacterString>marine</gco:CharacterString>
+            </gmd:keyword>
+            <gmd:type>
+                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+            </gmd:type>
+        </gmd:MD_Keywords>
+    </gmd:descriptiveKeywords>
+
+In all the keyword examples, the `codeList` attribute should be set to
+`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode`
+to be valid MCP 2.
+
+
+#### Dataset usage
+
+The standard allows a tag `resourceSpecificUsage` that can describe ways the
+dataset has been used, allowing contact details to talk to the data users.  
+I haven't included this tag; refer to
+[an ASDD sample](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
+for a usage example.
+
+
+#### Constraints on the dataset
+
+These constraints are usually related to copyright and licensing, but can also
+include usage constraints like not appropriate for navigation, or national
+security and secrecy constraints.  The `resourceConstraints` tag is optional
+and can occur multiple times.
+
+This example from ASDD shows a standard copyright claim with the corresponding
+type code.  Once again, this uses an old `codeList` to allow for validation,
+but should point at
+`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode`
+for mcp2 compliance.
+
+    <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+            <gmd:useLimitation>
+                <gco:CharacterString>Copyright Commonwealth of Australia  (Geoscience Australia) 2008</gco:CharacterString>
+            </gmd:useLimitation>
+            <gmd:useConstraints>
+                <gmd:MD_RestrictionCode
+                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
+                    codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
+            </gmd:useConstraints>
+        </gmd:MD_LegalConstraints>
+    </gmd:resourceConstraints>
+
+This example also from ASDD shows a CC-BY-ND license.
+
+TODO: update this example so it's properly referring to the currently
+recommended CC licenses.
+
+    <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+            <gmd:useLimitation>
+                <gco:CharacterString>
+                    http://i.creativecommons.org/l/by/2.5/au/80x15.png
+                    This product is released under the
+                    Creative Commons Attribution 2.5 Australia Licence (http://creativecommons.org/licenses/by-nd/2.5/au/)
+                </gco:CharacterString>
+            </gmd:useLimitation>
+            <gmd:accessConstraints>
+                <gmd:MD_RestrictionCode
+                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
+                    codeListValue="license">license</gmd:MD_RestrictionCode>
+            </gmd:accessConstraints>
+        </gmd:MD_LegalConstraints>   
+    </gmd:resourceConstraints>
+
+
+#### Aggregation information
+
+work in progress (optional)
+
+
+#### Language and character set for the data
 
 These are the same tags as before, but this time they're describing the
-language and character set of the *dataset itself*.  I really wanted to move
-these tags to the top of the parent tag, but it has to follow the citation and
-abstract.
+language and character set of the *dataset itself*.
 
 As always, for mcp2, the `codelist` URL should be `http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode`.
 
@@ -619,6 +1033,32 @@ As always, for mcp2, the `codelist` URL should be `http://schemas.aodn.org.au/mc
     <gmd:characterSet>
         <gmd:MD_CharacterSetCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
     </gmd:characterSet>
+
+
+#### Topic
+
+Topic is mandatory.  It classifies the "theme" of the data (or "themes', you
+can have several of this tag) and should be drawn from [the
+MD_TopicCategoryCode
+list](http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopicCategoryCode),
+although in this case there is no need for a reference to the codelist URL.
+
+Datasets destined for AODN should use `oceans`.  Other alternatives are:
+
+- `biota`
+- `climatologyMeteorologyAtmosphere`, `environment`
+- `boundaries`, `planningCadastre`, `location`
+- `economy`, `farming`, `health`, `society`
+- `elevation`, `geoscientificInformation`
+- `imageryBaseMapsEarthCover`
+- `intelligenceMilitary`
+- `inlandWaters`
+- `structure`, `transportation`, `utilitiesCommunication`
+
+
+    <gmd:topicCategory>
+        <gmd:MD_TopicCategoryCode>oceans</gmd:MD_TopicCategoryCode>
+    </gmd:topicCategory>
 
 
 #### Spatial and temporal extent of the data
@@ -878,238 +1318,6 @@ Here's a list of some useful region types and codes; look inside a copy of
 
         </gmd:EX_Extent>
     </gmd:extent>
-
-
-### Topic and keywords
-
-Topic is mandatory.  It classifies the "theme" of the data (or "themes', you
-can have several of this tag) and should be drawn from [the
-MD_TopicCategoryCode
-list](http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopicCategoryCode),
-although in this case there is no need for a reference to the codelist URL.
-
-Datasets destined for AODN should use `oceans`.  Other alternatives are:
-
-- `biota`
-- `climatologyMeteorologyAtmosphere`, `environment`
-- `boundaries`, `planningCadastre`, `location`
-- `economy`, `farming`, `health`, `society`
-- `elevation`, `geoscientificInformation`
-- `imageryBaseMapsEarthCover`
-- `intelligenceMilitary`
-- `inlandWaters`
-- `structure`, `transportation`, `utilitiesCommunication`
-
-
-    <gmd:topicCategory>
-        <gmd:MD_TopicCategoryCode>oceans</gmd:MD_TopicCategoryCode>
-    </gmd:topicCategory>
-
-Keywords are optional.  They must be selected from a [NASA keyword
-list](http://gcmd.nasa.gov/Resources/valids/archives/keyword_list.html), and
-the MCP standard advises that the `thesaurusName` tag and its children be
-supplied identifying the keyword list.  The first example below shows the
-recommended form; the second example shows two keywords from eAtlas that do
-not include the thesaurus reference.
-
-In addition to the thesaurus reference, each set of keywords can have a `type`
-selected from another word list.  The types are:
-
-* `theme` is the subject or topic, and is the one you probably want most of
-  the time
-* `discipline` meaning a branch of study
-* `place` a location
-* `stratum` a deposited physical layer
-* `temporal` names a time period (noting that
-  [lunchtime is an illusion](http://www.goodreads.com/quotes/6344-time-is-an-illusion-lunchtime-doubly-so))
-* `taxon` means "a taxonomy" according to `gmxCodelists.xml`, which I think
-  means the keyword names a specific taxon (rather than the more silly
-  interpretation of *taxonomy* as being "Linnaean" or something like that)
-* `equipment` names gear used to collect data
-* `dataSource` is described in `gmxCodelists.xml` as "identifies data source
-  eg. aggregated/derived"
-
-TODO: update the thesaurus reference to match JCU's GeoNetwork URLs.
-
-    <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-            <gmd:keyword>
-                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
-            </gmd:keyword>
-            <gmd:type>
-                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="discipline">
-                    discipline
-                </gmd:MD_KeywordTypeCode>
-            </gmd:type>
-            <gmd:thesaurusName>
-                <gmd:CI_Citation>
-                    <gmd:title>
-                        <gco:CharacterString>Global Change Master Directory Earth Science Keywords</gco:CharacterString>
-                    </gmd:title>
-                    <gmd:date gco:nilReason="unknown"/>
-                    <gmd:edition>
-                        <gco:CharacterString>bc44a748-f1a1-4775-9395-a4a6d8bb8df6:conceptscheme:GCMD Keywords, Version 5.3.8</gco:CharacterString>
-                    </gmd:edition>
-                    <gmd:editionDate gco:nilReason="unknown"/>
-                    <gmd:identifier>
-                        <gmd:MD_Identifier>
-                            <gmd:code>
-                                <gmx:Anchor
-                                    xlink:href="http://yourgeonetwork.com/geonetwork/srv/en/?uuid=bc44a748-f1a1-4775-9395-a4a6d8bb8df6"
-                                >
-                                    geonetwork.thesaurus.register.discipline.bc44a748-f1a1-4775-9395-a4a6d8bb8df6
-                                </gmx:Anchor>
-                            </gmd:code>
-                        </gmd:MD_Identifier>
-                    </gmd:identifier>
-                    <gmd:otherCitationDetails>
-                        <gco:CharacterString>
-                            Olsen, L.M., G. Major, K. Shein,
-                            J. Scialdone, S. Ritz, T. Stevens, M. Morahan, A. Aleman,
-                            R. Vogel, S. Leicester, H. Weir, M. Meaux, S. Grebas,
-                            C.Solomon, M. Holland, T. Northcutt, R. A. Restrepo,
-                            R. Bilodeau,2012. NASA/Global Change Master Directory (GCMD)
-                            Earth Science Keywords
-                        </gco:CharacterString>
-                    </gmd:otherCitationDetails>
-                </gmd:CI_Citation>
-            </gmd:thesaurusName>
-        </gmd:MD_Keywords>
-    </gmd:descriptiveKeywords>
-
-Example from eAtlas shows multiple keywords with a pipe separator; the ISO
-standard allows multiple `keyword` tags, which is a more correct way to have
-multiple keywords.
-
-The `marine` keyword is (AFACT) the trigger for AODN harvesting of the record,
-which is probably why eAtlas don't include that particular keyword in their
-idiosyncratic pipe separated list.
-
-TODO: check that GeoNetwork handles multiple `keyword` tags properly.
-
-    <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-            <gmd:keyword>
-                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
-            </gmd:keyword>
-            <gmd:type>
-                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-            </gmd:type>
-        </gmd:MD_Keywords>
-    </gmd:descriptiveKeywords>
-    <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-            <gmd:keyword>
-                <gco:CharacterString>marine</gco:CharacterString>
-            </gmd:keyword>
-            <gmd:type>
-                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-            </gmd:type>
-        </gmd:MD_Keywords>
-    </gmd:descriptiveKeywords>
-
-In all the keyword examples, the `codeList` attribute should be set to
-`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode`
-to be valid MCP 2.
-
-
-### Thumbnails
-
-You can optionally supply thumbnails for the dataset by providing
-`graphicOverview` tags.  Only the `fileName` tag is required inside
-`graphicOverview > MD_BrowseGraphic`.
-
-Samples here are from the ASDD example (which uses a full URL for the
-thumbnail) and eAtlas (which uses a plain filename).  I'm not sure how
-GeoNetwork goes about locating the file.
-
-TODO: investigate how GeoNetwork resolves thumbnail file paths.
-
-    <gmd:graphicOverview>
-        <gmd:MD_BrowseGraphic>
-            <gmd:fileName>
-                <gco:CharacterString>http://www.ga.gov.au/servlet/BigObjFileManager?bigobjid=GA3349</gco:CharacterString>
-            </gmd:fileName>
-            <gmd:fileDescription>
-                <gco:CharacterString>Map index of Australia 1:1,000,000</gco:CharacterString>
-            </gmd:fileDescription>
-            <gmd:fileType>
-                <gco:CharacterString>GIF</gco:CharacterString>
-            </gmd:fileType>
-        </gmd:MD_BrowseGraphic>
-    </gmd:graphicOverview>
-
-    <gmd:graphicOverview>
-        <gmd:MD_BrowseGraphic>
-            <gmd:fileName>
-                <gco:CharacterString>Preview-map_s.png</gco:CharacterString>
-            </gmd:fileName>
-            <gmd:fileDescription>
-                <gco:CharacterString>thumbnail</gco:CharacterString>
-            </gmd:fileDescription>
-            <gmd:fileType>
-                <gco:CharacterString>png</gco:CharacterString>
-            </gmd:fileType>
-        </gmd:MD_BrowseGraphic>
-    </gmd:graphicOverview>
-
-
-#### Dataset usage
-
-The standard allows a tag `resourceSpecificUsage` that can describe ways the
-dataset has been used, allowing contact details to talk to the data users.  
-I haven't included this tag; refer to
-[an ASDD sample](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
-for a usage example.
-
-
-#### Constraints on the dataset
-
-These constraints are usually related to copyright and licensing, but can also
-include usage constraints like not appropriate for navigation, or national
-security and secrecy constraints.  The `resourceConstraints` tag is optional
-and can occur multiple times.
-
-This example from ASDD shows a standard copyright claim with the corresponding
-type code.  Once again, this uses an old `codeList` to allow for validation,
-but should point at
-`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode`
-for mcp2 compliance.
-
-    <gmd:resourceConstraints>
-        <gmd:MD_LegalConstraints>
-            <gmd:useLimitation>
-                <gco:CharacterString>Copyright Commonwealth of Australia  (Geoscience Australia) 2008</gco:CharacterString>
-            </gmd:useLimitation>
-            <gmd:useConstraints>
-                <gmd:MD_RestrictionCode
-                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
-                    codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
-            </gmd:useConstraints>
-        </gmd:MD_LegalConstraints>
-    </gmd:resourceConstraints>
-
-This example also from ASDD shows a CC-BY-ND license.
-
-TODO: update this example so it's properly referring to the currently
-recommended CC licenses.
-
-    <gmd:resourceConstraints>
-        <gmd:MD_LegalConstraints>
-            <gmd:useLimitation>
-                <gco:CharacterString>
-                    http://i.creativecommons.org/l/by/2.5/au/80x15.png
-                    This product is released under the
-                    Creative Commons Attribution 2.5 Australia Licence (http://creativecommons.org/licenses/by-nd/2.5/au/)
-                </gco:CharacterString>
-            </gmd:useLimitation>
-            <gmd:accessConstraints>
-                <gmd:MD_RestrictionCode
-                    codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
-                    codeListValue="license">license</gmd:MD_RestrictionCode>
-            </gmd:accessConstraints>
-        </gmd:MD_LegalConstraints>   
-    </gmd:resourceConstraints>
 
 
 (End of identification info, and restoring original indent level)
