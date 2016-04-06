@@ -339,20 +339,13 @@ To save some indenting space, I'm resetting the indentation for
 the content of this `MD_DataIdentification` tag -- the following XML is two
 levels less indented than you would expect.
 
-**Important:** Tag ordering matters here.  Despite this being
-standards-controlled XML, the One True Consumer of this XML is GeoNetwork, and
-GeoNetwork requires the contents of this tag to be in the right order.
+**Tag ordering matters here**.  Unfortunately it's unclear what
+the correct order is.  The XML standard defines one set, and a list in a
+software requirement specification forwarded by Roger Proctor asks for a
+different ordering.  Another fun detail is how the two lists don't include
+the same tags.
 
-WORK IN PROGRESS: I think this is the right order.  Not all of these are
-represented in this document, but I'm listing the full set here because it
-was hard to find (it starts at about line 2225 in
-[this XSLT document](https://github.com/aodn/schema-plugins/blob/master/iso19139.mcp-2.0/present/metadata-edit.xsl)):
-
-Update: this list disagrees with a partial list included in software
-requirements supplied by Roger Proctor.  I've emailed Roger back asking
-for a full list.
-
-My list:
+List from [the schema](https://github.com/aodn/schema-plugins/blob/master/iso19139.mcp-2.0/schema/gmd/identification.xsd):
 
 1. `citation`
 1. `abstract`
@@ -367,21 +360,9 @@ My list:
 1. `resourceSpecificUsage`
 1. `resourceConstraints`
 1. `aggregationInfo`
-1. `spatialRepresentationType`
-1. `spatialResolution`
-1. `language`
-1. `characterSet`
-1. `topicCategory`
-1. `environmentDescription`
-1. `extent`
-1. `supplementalInformation`
-1. `samplingFrequency`
-1. `sensor`
-1. `sensorCalibrationProcess`
-1. `dataParameters`
 
 
-Roger's list:
+List from the spec (which is a confidential PDF, ask Daniel for a look):
 
 1. `citation`
 1. `abstract`
@@ -401,28 +382,13 @@ Roger's list:
 1. `supplementalInformation`
 1. `credit`
 
-Update: Kim Finney replied to my request to Roger, and pointed to this list:
-
-1. `citation`
-1. `abstract`
-1. `purpose`
-1. `credit`
-1. `status`
-1. `pointOfContact`
-1. `resourceMaintenance`
-1. `graphicOverview`
-1. `resourceFormat`
-1. `descriptiveKeywords`
-1. `resourceSpecificUsage`
-1. `resourceConstraints`
-1. `aggregationInfo`
-
+For now I'm following the spec, which imports into GeoNetwork properly.
 
 
 #### Citation
 
-This section provides info about how to cite the data (the data itself, not this
-metadata record).
+This section provides info about how to cite the data (the data itself, not
+this metadata record).
 
     <gmd:citation>
         <gmd:CI_Citation>
@@ -445,7 +411,7 @@ If there are common acronyms or other alternate titles, include any number of
             </gmd:alternateTitle>
 
 The date used for citing the data, which is usually a publication date. Once
-again, this uses 1.5-eperimental code lists; substitute
+again, this uses 1.5-experimental code lists; substitute
 `codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"`
 once mcp2 is actually present at that URL.
 
@@ -759,7 +725,11 @@ You only need supply one of `individualName`, `organisationName`, or
 
 
         <gmd:role>
-          <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+          <gmd:CI_RoleCode
+            codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+            codeListValue="pointOfContact">
+            pointOfContact
+          </gmd:CI_RoleCode>
         </gmd:role>
 
       </gmd:CI_ResponsibleParty>
@@ -1115,14 +1085,16 @@ box spanning the dateline will have `westBoundLongitude` > `eastBoundLongitude`.
                 </gmd:EX_GeographicBoundingBox>
             </gmd:geographicElement>
 
-Polygons are supported; I don't know why there's an initial blank point in the
-ASDD polygon example below, I think it's an error (the second and last points
-are the same, making it a valid ring without the blank point), but feel free
-to read through the
-[GML standard](http://www.opengeospatial.org/standards/gml) to confirm that.
+Polygons are supported.  The example below is taken from the ASDD sample
+document, but I've removed an initial blank `pos` (having it stopped GeoNetwork
+from displaying the polygon at all) and I've switched the `srsName` from
+`EPSG::4283` (an Australian-continent-focused SRS) to `EPSG:4326` (common ol'
+WGS84).  The original value confused GeoNetwork into swapping lats and longs
+(or possibly that SRS uses lng-lat and the original polygon author got it
+wrong).
 
-GML lets you specify interior rings (for holes in your coverage polygon) but
-you're on your own there.
+GML lets you specify interior rings (for holes in your coverage polygon), so
+good luck with the [GML standard](http://www.opengeospatial.org/standards/gml).
 
 You can also specify multiple bounding boxes or multiple polygons by
 repeating the `geographicElement` tag.
@@ -1130,10 +1102,9 @@ repeating the `geographicElement` tag.
             <gmd:geographicElement>
                 <gmd:EX_BoundingPolygon>
                     <gmd:polygon>
-                        <gml:Polygon gml:id="p1" srsName="EPSG::4283" uomLabels="degree">
+                        <gml:Polygon gml:id="p1" srsName="EPSG:4326" uomLabels="degree">
                             <gml:exterior>
                                 <gml:LinearRing>
-                                    <gml:pos/>
                                     <gml:pos>-8 92</gml:pos>
                                     <gml:pos>-60 85</gml:pos>
                                     <gml:pos>-80 153</gml:pos>
@@ -1178,6 +1149,8 @@ fact they are present only in the codeList source and not mentioned in any
 MCP2 documentation -- on 22 March 2016 I emailed the person who added them to
 the codeList and asked for clarification).
 
+Update: those values will be in MCP 2.0.
+
             <gmd:temporalElement>
                 <mcp:EX_TemporalExtent gco:isoType="gmd:EX_TemporalExtent">
                     <gmd:extent>
@@ -1196,12 +1169,12 @@ the codeList and asked for clarification).
                     </gmd:extent>
                     <mcp:currency>
                         <mcp:MD_CurrencyTypeCode
-                            codeList="http://schemas.aodn.org.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_CurrencyTypeCode"
+                            codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_CurrencyTypeCode"
                             codeListValue="historical">historical</mcp:MD_CurrencyTypeCode>
                     </mcp:currency>
                     <mcp:temporalAggregation>
                         <mcp:MD_TemporalAggregationUnitCode
-                            codeList="http://schemas.aodn.org.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_TemporalAggregationUnitCode"
+                            codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_TemporalAggregationUnitCode"
                             codeListValue="week">week</mcp:MD_TemporalAggregationUnitCode>
                     </mcp:temporalAggregation>
                 </mcp:EX_TemporalExtent>
@@ -1265,7 +1238,7 @@ location name, I've reset indenting for this section.)
                                 <gco:CharacterString>Version 2</gco:CharacterString>
                             </gmd:edition>
                             <gmd:editionDate>
-                                <gco:Date>2001-02</gco:Date>
+                                <gco:Date>2001-02-01</gco:Date>
                             </gmd:editionDate>
                             <gmd:identifier>
                                 <gmd:MD_Identifier>
@@ -1617,10 +1590,11 @@ anything we're using MCP2.0 for, you'll almost certainly want `dataset`.
                 <gmd:scope>
                     <gmd:DQ_Scope>
                         <gmd:level>
-                            <gmd:MD_ScopeCode
-                                codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
-                                codeListValue="dataset"
-                            />
+                          <gmd:MD_ScopeCode
+                            codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
+                            codeListValue="dataset">
+                            dataset
+                          </gmd:MD_ScopeCode>
                         </gmd:level>
                     </gmd:DQ_Scope>
                 </gmd:scope>
