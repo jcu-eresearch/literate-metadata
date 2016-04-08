@@ -458,7 +458,7 @@ will appear as `Coen Sascha Baron`, which appears ambiguous).  Alternative is
 a comma (and no space).
 
                     <gmd:individualName>
-                        <gco:CharacterString>Madin Joshua</gco:CharacterString>
+                        <gco:CharacterString>10.6084/m9.figshare.c.2867743.v1</gco:CharacterString>
                     </gmd:individualName>
 
 The ISO spec says it's okay to have an acronym after the org name, e.g. `Ian
@@ -495,19 +495,19 @@ Contact info for the citable person.  Note the occasional
                                         <gco:CharacterString />
                                     </gmd:deliveryPoint>
                                     <gmd:city>
-                                        <gco:CharacterString>Townsville</gco:CharacterString>
+                                        <gco:CharacterString></gco:CharacterString>
                                     </gmd:city>
                                     <gmd:administrativeArea>
-                                        <gco:CharacterString>Queensland</gco:CharacterString>
+                                        <gco:CharacterString></gco:CharacterString>
                                     </gmd:administrativeArea>
                                     <gmd:postalCode gco:nilReason="missing">
                                         <gco:CharacterString />
                                     </gmd:postalCode>
                                     <gmd:country>
-                                        <gco:CharacterString>Australia</gco:CharacterString>
+                                        <gco:CharacterString></gco:CharacterString>
                                     </gmd:country>
                                     <gmd:electronicMailAddress>
-                                        <gco:CharacterString>alana.grech@jcu.edu.au</gco:CharacterString>
+                                        <gco:CharacterString></gco:CharacterString>
                                     </gmd:electronicMailAddress>
                                 </gmd:CI_Address>
                             </gmd:address>
@@ -517,7 +517,7 @@ Contact info for the citable person.  Note the occasional
 Role this citable person served.
 
                     <gmd:role>
-                        <gmd:CI_RoleCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="principalInvestigator">principalInvestigator</gmd:CI_RoleCode>
+                        <gmd:CI_RoleCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="principalInvestigator"></gmd:CI_RoleCode>
                     </gmd:role>
 
                 </gmd:CI_ResponsibleParty>
@@ -525,52 +525,6 @@ Role this citable person served.
             <gmd:citedResponsibleParty>
                 <gmd:CI_ResponsibleParty>
 
-Here's another example of a citable person, so this record will have two
-"author"ish people.
-
-                    <gmd:individualName>
-                        <gco:CharacterString>Marsh, Helene, Prof.</gco:CharacterString>
-                    </gmd:individualName>
-                    <gmd:organisationName>
-                        <gco:CharacterString>School of Earth and Environment, James Cook University</gco:CharacterString>
-                    </gmd:organisationName>
-                    <gmd:positionName>
-                        <gco:CharacterString>Dean of Graduate Research Studies</gco:CharacterString>
-                    </gmd:positionName>
-                    <gmd:contactInfo>
-                        <gmd:CI_Contact>
-                            <gmd:phone>
-                                <gmd:CI_Telephone>
-                                    <gmd:voice>
-                                        <gco:CharacterString>+61 7 4781 5575</gco:CharacterString>
-                                    </gmd:voice>
-                                    <gmd:facsimile gco:nilReason="missing">
-                                        <gco:CharacterString />
-                                    </gmd:facsimile>
-                                </gmd:CI_Telephone>
-                            </gmd:phone>
-                            <gmd:address>
-                                <gmd:CI_Address>
-                                    <gmd:deliveryPoint gco:nilReason="missing">
-                                        <gco:CharacterString />
-                                    </gmd:deliveryPoint>
-                                    <gmd:city>
-                                        <gco:CharacterString>Townsville</gco:CharacterString>
-                                    </gmd:city>
-                                    <gmd:administrativeArea>
-                                        <gco:CharacterString>Queensland</gco:CharacterString>
-                                    </gmd:administrativeArea>
-                                    <gmd:postalCode gco:nilReason="missing">
-                                        <gco:CharacterString />
-                                    </gmd:postalCode>
-                                    <gmd:country>
-                                        <gco:CharacterString>Australia</gco:CharacterString>
-                                    </gmd:country>
-                                    <gmd:electronicMailAddress>
-                                        <gco:CharacterString>Helene.Marsh@jcu.edu.au</gco:CharacterString>
-                                    </gmd:electronicMailAddress>
-                                </gmd:CI_Address>
-                            </gmd:address>
 
 This person's info includes an onlineResource, which is a link to their staff
 page.  It takes around 1,000 characters to include this 60-character URL.  The
@@ -583,13 +537,13 @@ how to get the dataset; here, you probably want to stick with
                             <gmd:onlineResource>
                                 <gmd:CI_OnlineResource>
                                     <gmd:linkage>
-                                        <gmd:URL>http://www.jcu.edu.au/ees/staff/academic/JCUDEV_008380.html</gmd:URL>
+                                        <gmd:URL>https://dx.doi.org/10.6084/m9.figshare.c.2867743.v1</gmd:URL>
                                     </gmd:linkage>
                                     <gmd:protocol>
                                         <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
                                     </gmd:protocol>
                                     <gmd:name>
-                                        <gco:CharacterString>Professor Helene Marsh - JCU Staff page</gco:CharacterString>
+                                        <gco:CharacterString></gco:CharacterString>
                                     </gmd:name>
                                     <gmd:description gco:nilReason="missing">
                                         <gco:CharacterString />
@@ -599,7 +553,7 @@ how to get the dataset; here, you probably want to stick with
                         </gmd:CI_Contact>
                     </gmd:contactInfo>
                     <gmd:role>
-                        <gmd:CI_RoleCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="coInvestigator">coInvestigator</gmd:CI_RoleCode>
+                        <gmd:CI_RoleCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="coInvestigator"></gmd:CI_RoleCode>
                     </gmd:role>
                 </gmd:CI_ResponsibleParty>
             </gmd:citedResponsibleParty>
@@ -619,13 +573,7 @@ keywords.
 
     <gmd:abstract>
         <gco:CharacterString>
-            This dataset shows a spatial model of somthing relative to another
-            thing in a specified area, based on data collected over a period
-            of some years.  For more information on the methods used in the
-            creation of this dataset see Grech. A., and Marsh. H. (2007) -
-            Prioritising things for conservation in a marine protected area
-            using a spatially explicit population model, Applied GIS, 3(2),
-            1-14.
+            The Coral Trait Database is a growing compilation of scleractinian coral life history trait, phylogenetic and biogeographic data. As of today, there are 68247 coral observations with 105243 trait entries of 147 traits for 1548 coral species in the database. Most of these entries are for shallow-water, reef-building species.
         </gco:CharacterString>
     </gmd:abstract>
 
@@ -634,10 +582,9 @@ collection.
 
     <gmd:purpose>
         <gco:CharacterString>
-            As zombies move over long distances and have a wide
-            distributional range, it is important to identify areas
-            of high long-term average zombie densities to prioritise
-            elimination efforts.
+        The Coral Trait Database is an open source research initiative that aims to make all observations and measurements of Scleractinian corals accessible in order to more rapidly advance coral reef science. Anyone collecting coral trait data (e.g., collected in field and laboratory studies, extracted from the literature, or by other means) can join and contribute to the growing data compilation. Contributors have control over the privacy of their data and greatly benefit from being able to download complementary public data from the database in a standard format for use in their analyses. We hope that private data will become public once the contributor has published them, which will subsequently be cited when their data are used in analyses by other people. The citation system has been carefully designed to ensure full transparency about the origin of each individual data point as well as larger data compilations of other peoples' data (such as data extracted from literature for meta-analyses).
+
+
         </gco:CharacterString>
     </gmd:purpose>
 
@@ -648,7 +595,7 @@ look like.
 
     <gmd:credit>
       <gco:CharacterString>
-        Charles Babbage, for starting it all
+
       </gco:CharacterString>
     </gmd:credit>
 
@@ -681,12 +628,13 @@ You only need supply one of `individualName`, `organisationName`, or
 `positionName`; hopefully for this field we can supply an actual person.
 
         <gmd:individualName>
-          <gco:CharacterString>Ada Lovelace</gco:CharacterString>
+          <gco:CharacterString>Joshua Madin</gco:CharacterString>
         </gmd:individualName>
-        <gmd:organisationName gco:nilReason="missing">
+        <gmd:organisationName >
+        <gco:CharacterString>Macquarie University
           <gco:CharacterString/>
         </gmd:organisationName>
-        <gmd:positionName gco:nilReason="missing">
+        <gmd:positionName>Associate Professor ARC Future Fellow
           <gco:CharacterString/>
         </gmd:positionName>
 
@@ -694,7 +642,7 @@ You only need supply one of `individualName`, `organisationName`, or
           <gmd:CI_Contact>
             <gmd:phone>
               <gmd:CI_Telephone>
-                <gmd:voice gco:nilReason="missing">
+                <gmd:voice>61-2-9850-8667
                   <gco:CharacterString/>
                 </gmd:voice>
               </gmd:CI_Telephone>
@@ -716,7 +664,7 @@ You only need supply one of `individualName`, `organisationName`, or
                 <gmd:country gco:nilReason="missing">
                   <gco:CharacterString/>
                 </gmd:country>
-                <gmd:electronicMailAddress gco:nilReason="missing">
+                <gmd:electronicMailAddress>joshua.madin@mq.edu.au
                   <gco:CharacterString/>
                 </gmd:electronicMailAddress>
               </gmd:CI_Address>
@@ -757,11 +705,11 @@ TODO: investigate how GeoNetwork resolves thumbnail file paths.
 <pre>
 .    <gmd:graphicOverview>
 .        <gmd:MD_BrowseGraphic>
-.            <gmd:fileName>
-.                <gco:CharacterString>http://www.ga.gov.au/servlet/BigObjFileManager?bigobjid=GA3349</gco:CharacterString>
+.            <gmd:fileName gco:nilReason="missing">
+.                <gco:CharacterString></gco:CharacterString>
 .            </gmd:fileName>
 .            <gmd:fileDescription>
-.                <gco:CharacterString>Map index of Australia 1:1,000,000</gco:CharacterString>
+.                <gco:CharacterString></gco:CharacterString>
 .            </gmd:fileDescription>
 .            <gmd:fileType>
 .                <gco:CharacterString>GIF</gco:CharacterString>
@@ -772,46 +720,17 @@ TODO: investigate how GeoNetwork resolves thumbnail file paths.
 .    <gmd:graphicOverview>
 .        <gmd:MD_BrowseGraphic>
 .            <gmd:fileName>
-.                <gco:CharacterString>Preview-map_s.png</gco:CharacterString>
+.                <gco:CharacterString></gco:CharacterString>
 .            </gmd:fileName>
 .            <gmd:fileDescription>
-.                <gco:CharacterString>thumbnail</gco:CharacterString>
+.                <gco:CharacterString></gco:CharacterString>
 .            </gmd:fileDescription>
 .            <gmd:fileType>
-.                <gco:CharacterString>png</gco:CharacterString>
+.                <gco:CharacterString></gco:CharacterString>
 .            </gmd:fileType>
 .        </gmd:MD_BrowseGraphic>
 .    </gmd:graphicOverview>
 </pre>
-
-
-    <gmd:graphicOverview>
-        <gmd:MD_BrowseGraphic>
-            <gmd:fileName>
-                <gco:CharacterString>http://www.ga.gov.au/servlet/BigObjFileManager?bigobjid=GA3349</gco:CharacterString>
-            </gmd:fileName>
-            <gmd:fileDescription>
-                <gco:CharacterString>Map index of Australia 1:1,000,000</gco:CharacterString>
-            </gmd:fileDescription>
-            <gmd:fileType>
-                <gco:CharacterString>GIF</gco:CharacterString>
-            </gmd:fileType>
-        </gmd:MD_BrowseGraphic>
-    </gmd:graphicOverview>
-
-    <gmd:graphicOverview>
-        <gmd:MD_BrowseGraphic>
-            <gmd:fileName>
-                <gco:CharacterString>Preview-map_s.png</gco:CharacterString>
-            </gmd:fileName>
-            <gmd:fileDescription>
-                <gco:CharacterString>thumbnail</gco:CharacterString>
-            </gmd:fileDescription>
-            <gmd:fileType>
-                <gco:CharacterString>png</gco:CharacterString>
-            </gmd:fileType>
-        </gmd:MD_BrowseGraphic>
-    </gmd:graphicOverview>
 
 
 #### Resource format
@@ -906,7 +825,8 @@ TODO: check that GeoNetwork handles multiple `keyword` tags properly.
     <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
             <gmd:keyword>
-                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
+                <gco:CharacterString>Oceans | Coral
+                </gco:CharacterString>
             </gmd:keyword>
             <gmd:type>
                 <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
@@ -916,7 +836,7 @@ TODO: check that GeoNetwork handles multiple `keyword` tags properly.
     <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
             <gmd:keyword>
-                <gco:CharacterString>marine</gco:CharacterString>
+                <gco:CharacterString></gco:CharacterString>
             </gmd:keyword>
             <gmd:type>
                 <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.5-experimental/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
@@ -954,7 +874,10 @@ for mcp2 compliance.
     <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
             <gmd:useLimitation>
-                <gco:CharacterString>Copyright Commonwealth of Australia  (Geoscience Australia) 2008</gco:CharacterString>
+                <gco:CharacterString>
+                https://licensebuttons.net/l/zero/1.0/80x15.png
+                This product is released under the
+                Creative Commons Zero Licence (https://creativecommons.org/publicdomain/zero/1.0/legalcode)</gco:CharacterString>
             </gmd:useLimitation>
             <gmd:useConstraints>
                 <gmd:MD_RestrictionCode
@@ -985,6 +908,8 @@ recommended CC licenses.
             </gmd:accessConstraints>
         </gmd:MD_LegalConstraints>   
     </gmd:resourceConstraints>
+
+
 
 
 #### Aggregation information

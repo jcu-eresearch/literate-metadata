@@ -962,18 +962,19 @@ for mcp2 compliance.
         </gmd:MD_LegalConstraints>
     </gmd:resourceConstraints>
 
-This example also from ASDD shows a CC-BY-ND license.
 
-TODO: update this example so it's properly referring to the currently
+This example also from ASDD shows a CC-BY license. It is the default licence for Australian Government Departments and Agencies.  According to the current Australian copyright body http://www.ausgoal.gov.au/creative-commons : This licence lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation. This is the most accommodating of licences offered. Recommended for maximum dissemination and use of licensed materials.
+
+DONE:TODO: update this example so it's properly referring to the currently
 recommended CC licenses.
 
     <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
             <gmd:useLimitation>
                 <gco:CharacterString>
-                    http://i.creativecommons.org/l/by/2.5/au/80x15.png
+                    http://i.creativecommons.org/l/by/3.0/au/80x15.png
                     This product is released under the
-                    Creative Commons Attribution 2.5 Australia Licence (http://creativecommons.org/licenses/by-nd/2.5/au/)
+                    Creative Commons Attribution CC BY 3.0 Australia Licence (http://creativecommons.org/licenses/by/3.0/au/deed.en)
                 </gco:CharacterString>
             </gmd:useLimitation>
             <gmd:accessConstraints>
@@ -983,6 +984,24 @@ recommended CC licenses.
             </gmd:accessConstraints>
         </gmd:MD_LegalConstraints>   
     </gmd:resourceConstraints>
+
+This example by steven.vandervalk@jcu.edu.au shows a CC-Zero license.
+
+        <gmd:resourceConstraints>
+            <gmd:MD_LegalConstraints>
+                <gmd:useLimitation>
+                    <gco:CharacterString>
+                    https://licensebuttons.net/l/zero/1.0/80x15.png
+                    This product is released under the
+                    Creative Commons Zero Licence (https://creativecommons.org/publicdomain/zero/1.0/legalcode)</gco:CharacterString>
+                </gmd:useLimitation>
+                <gmd:useConstraints>
+                    <gmd:MD_RestrictionCode
+                        codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
+                        codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
+                </gmd:useConstraints>
+            </gmd:MD_LegalConstraints>
+        </gmd:resourceConstraints>
 
 
 #### Aggregation information
