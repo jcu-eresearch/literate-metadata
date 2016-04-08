@@ -25,6 +25,24 @@ Major sources are:
 * Sample records from eAtlas
 
 
+## Temporary fixes
+
+This document attempts to comply with MCP 2.0.  This is slightly difficult
+because MCP 2.0 isn't available anywhere yet.  GeoNetwork happily uses its
+own internal definition of the MCP2 schema without noticing that the schema
+URL returns a 404, but GN still attempts to follow the various Codelist
+reference URLs.  So, for now, I'm using a path to the Codelist on github.
+
+
+To switch this back, replace this github URL:
+
+`https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml`
+
+With this correct URL:
+
+`http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml`
+
+
 ## Starting the XML document
 
 The first item in the metadata record is a standard XML declaration.
@@ -90,7 +108,7 @@ specifies an encoding.
     <gmd:characterSet>
       <gmd:MD_CharacterSetCode
         codeListValue="utf8"
-        codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode"
+        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode"
       >utf8</gmd:MD_CharacterSetCode>
     </gmd:characterSet>
 
@@ -113,7 +131,7 @@ you can just delete both tags if this is a dataset with no parent.
 
     <gmd:hierarchyLevel>
       <gmd:MD_ScopeCode
-        codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
+        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
         codeListValue="dataset"
       >dataset</gmd:MD_ScopeCode>
     </gmd:hierarchyLevel>
@@ -241,7 +259,7 @@ example here.  The ASDD version used a self-closing `gmd:CI_RoleCode` tag.
 
         <gmd:role>
           <gmd:CI_RoleCode
-            codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
             codeListValue="metadataContact"
           >
             metadataContact
@@ -381,7 +399,7 @@ you should switch the `gco:DateTime` for a `gco:Date` tag.
               <gco:DateTime>2007-03-05T11:50:00</gco:DateTime>
             </gmd:date>
             <gmd:dateType>
-              <gmd:CI_DateTypeCode codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+              <gmd:CI_DateTypeCode codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
             </gmd:dateType>
           </gmd:CI_Date>
         </gmd:date>
@@ -478,7 +496,7 @@ Role this citable person served.
 
             <gmd:role>
               <gmd:CI_RoleCode
-                codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+                codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
                 codeListValue="principalInvestigator"
               >principalInvestigator</gmd:CI_RoleCode>
             </gmd:role>
@@ -565,7 +583,7 @@ how to get the dataset; here, you probably want to stick with
             </gmd:contactInfo>
             <gmd:role>
               <gmd:CI_RoleCode
-                codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+                codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
                 codeListValue="coInvestigator"
               >coInvestigator</gmd:CI_RoleCode>
             </gmd:role>
@@ -627,7 +645,7 @@ that grow forever.
 
     <gmd:status>
       <gmd:MD_ProgressCode
-        codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_ProgressCode"
+        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_ProgressCode"
         codeListValue="onGoing"
       >onGoing</gmd:MD_ProgressCode>
     </gmd:status>
@@ -686,8 +704,8 @@ You only need supply one of `individualName`, `organisationName`, or
                 <gmd:country gco:nilReason="missing">
                   <gco:CharacterString/>
                 </gmd:country>
-                <gmd:electronicMailAddress gco:nilReason="missing">
-                  <gco:CharacterString/>
+                <gmd:electronicMailAddress>
+                  <gco:CharacterString>augusta.king@lovelace.gov.uk</gco:CharacterString>
                 </gmd:electronicMailAddress>
               </gmd:CI_Address>
             </gmd:address>
@@ -696,7 +714,7 @@ You only need supply one of `individualName`, `organisationName`, or
 
         <gmd:role>
           <gmd:CI_RoleCode
-            codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
             codeListValue="pointOfContact">
             pointOfContact
           </gmd:CI_RoleCode>
@@ -791,7 +809,7 @@ TODO: update the thesaurus reference to match JCU's GeoNetwork URLs.
         </gmd:keyword>
         <gmd:type>
           <gmd:MD_KeywordTypeCode
-            codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
             codeListValue="discipline"
           >discipline</gmd:MD_KeywordTypeCode>
         </gmd:type>
@@ -848,7 +866,7 @@ TODO: check that GeoNetwork handles multiple `keyword` tags properly.
         </gmd:keyword>
         <gmd:type>
           <gmd:MD_KeywordTypeCode
-            codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
             codeListValue="theme"
           >theme</gmd:MD_KeywordTypeCode>
         </gmd:type>
@@ -861,7 +879,7 @@ TODO: check that GeoNetwork handles multiple `keyword` tags properly.
         </gmd:keyword>
         <gmd:type>
           <gmd:MD_KeywordTypeCode
-            codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
             codeListValue="theme"
           >theme</gmd:MD_KeywordTypeCode>
         </gmd:type>
@@ -895,7 +913,7 @@ type code.
         </gmd:useLimitation>
         <gmd:useConstraints>
           <gmd:MD_RestrictionCode
-            codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode"
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode"
             codeListValue="copyright"
           >copyright</gmd:MD_RestrictionCode>
         </gmd:useConstraints>
@@ -919,7 +937,7 @@ recommended CC licenses.
         </gmd:useLimitation>
         <gmd:accessConstraints>
           <gmd:MD_RestrictionCode
-            codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode"
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode"
             codeListValue="license"
           >license</gmd:MD_RestrictionCode>
         </gmd:accessConstraints>
@@ -942,7 +960,7 @@ language and character set of the *dataset itself*.
     </gmd:language>
     <gmd:characterSet>
       <gmd:MD_CharacterSetCode
-        codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode"
+        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode"
         codeListValue="utf8"
       >utf8</gmd:MD_CharacterSetCode>
     </gmd:characterSet>
@@ -953,7 +971,7 @@ language and character set of the *dataset itself*.
 Topic is mandatory.  It classifies the "theme" of the data (or "themes", as
 you can have several of this tag) and should be drawn from [the
 MD_TopicCategoryCode
-list](http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_TopicCategoryCode),
+list](https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_TopicCategoryCode),
 although in this case there is no need for a reference to the codelist URL.
 
 Datasets destined for the AODN should use `oceans`.  Other alternatives are:
@@ -1114,13 +1132,13 @@ GML objects need `id`s, so remember to add those where indicated.
             </gmd:extent>
             <mcp:currency>
               <mcp:MD_CurrencyTypeCode
-                codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CurrencyTypeCode"
+                codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_CurrencyTypeCode"
                 codeListValue="historical"
               >historical</mcp:MD_CurrencyTypeCode>
             </mcp:currency>
             <mcp:temporalAggregation>
               <mcp:MD_TemporalAggregationUnitCode
-                codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_TemporalAggregationUnitCode"
+                codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_TemporalAggregationUnitCode"
                 codeListValue="week"
               >week</mcp:MD_TemporalAggregationUnitCode>
             </mcp:temporalAggregation>
@@ -1288,18 +1306,18 @@ want.  The ANZLIC sample prefixes all the format descriptions with the string
 "DIGITAL - ", but the standard says it should be a "concise title" for the
 format, so I'm not using a prefix for digital file formats.
 
-I've also used the ANZLIC standard's recommended technique for not supplying
-a version number (the ANZLIC sample file used a literal value of `none` rather
-than following their own standard).
-
-TODO: check the GeoNetwork suggestions and consider using those.
+The ANZLIC standard's recommended technique for not supplying a version
+number is to claim `nilReason="inapplicable"`, but the ANZLIC sample file
+used a literal value of `none` instead.  I've included both strategies in
+these examples; using `none` is a little more acceptable to GeoNetwork's
+edit pages.
 
 ##### ASCII grid using lat / long
 
           <gmd:distributionFormat>
             <gmd:MD_Format>
               <gmd:name>
-                <gco:CharacterString>ESRI ArcInfo ASCII grid Geographic WGS84</gco:CharacterString>
+                <gco:CharacterString>ESRI ASCII grid Geographic WGS84</gco:CharacterString>
               </gmd:name>
               <gmd:version gco:nilReason="inapplicable"/>
             </gmd:MD_Format>
@@ -1311,9 +1329,11 @@ TODO: check the GeoNetwork suggestions and consider using those.
           <gmd:distributionFormat>
             <gmd:MD_Format>
               <gmd:name>
-                <gco:CharacterString>ESRI ArcInfo ASCII grid</gco:CharacterString>
+                <gco:CharacterString>ESRI ASCII grid</gco:CharacterString>
               </gmd:name>
-              <gmd:version gco:nilReason="inapplicable"/>
+              <gmd:version>
+                <gco:CharacterString>none</gco:CharacterString>
+              </gmd:version>
             </gmd:MD_Format>
           </gmd:distributionFormat>
 
@@ -1348,7 +1368,7 @@ exercise for the reader -- don't forget to set the `fees` tag appropriately.
                   </gmd:organisationName>
                   <gmd:role>
                     <gmd:CI_RoleCode
-                      codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+                      codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
                       codeListValue="custodian"
                     >custodian</gmd:CI_RoleCode>
                   </gmd:role>
@@ -1547,7 +1567,7 @@ anything we're using MCP2.0 for, you'll almost certainly want `dataset`.
             <gmd:DQ_Scope>
               <gmd:level>
                 <gmd:MD_ScopeCode
-                  codeList="http://schemas.aodn.org.au/mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
+                  codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
                   codeListValue="dataset"
                 >dataset</gmd:MD_ScopeCode>
               </gmd:level>
