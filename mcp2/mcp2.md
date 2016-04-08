@@ -153,9 +153,7 @@ from the [ASDD site](http://asdd.ga.gov.au/asdd/profileinfo/).
       <gmd:CI_ResponsibleParty>
 
 Note the claimed effect of the `gco:nilReason="withheld"` in the following
-section.
-
-TODO: Check to see if GeoNetwork respects this restriction of presentation.
+section.  GeoNetwork does NOT respect this, so don't use `withheld`.
 
 Also, note that the `individualName` field's value, copied from an ASDD
 example, is formatted incorrectly according to the ISO19115 spec -- the
@@ -201,7 +199,8 @@ of `missing`, like this:
 
 `<gmd:facsimile gco:nilReason="missing"><gco:CharacterString /></gmd:facsimile>`
 
-TODO: check if GeoNetwork is okay with a missing fax number.
+GeoNetwork is fine with missing tags inside the `CI_Telephone` tag, so just
+delete the ones you don't need.
 
 
 #### Addresses
@@ -424,16 +423,15 @@ single delimiter".  This example from eAtlas originally used a two character
 sequence, comma+space `, ` as the delimiter (i.e. the value of the
 `individualName` tag was `<gco:CharacterString>Grech, Alana,
 Dr.</gco:CharacterString>`).  From the spec's description I can't tell if a
-two-char delimiter is okay or not.  I've used a single space in this example,
-matching the ISO spec.
+two-char delimiter is okay or not.  I've used a single space in this example.
+
+GeoNetwork seems to just present the full string, so a space delimiter can be
+confusing (e.g. when the honourable Baron Sascha Coen, the Baron of
+Nettlestone, is referenced, he will appear as `Coen Sascha Baron`, which
+appears ambiguous).  I recommend using a comma + space for readability.
 
 You need only include one of `individualName`, `organisationName`, and
 `positionName`.
-
-TODO: check how names are presented in GeoNetwork / AODN; is a space delimiter
-confusing (e.g. when the honourable Baron Sascha Coen, the Baron of
-Nettlestone, is referenced, he will appear as `Coen Sascha Baron`, which
-appears ambiguous).  Alternative is a comma (and no space).
 
             <gmd:individualName>
               <gco:CharacterString>Grech Alana Dr</gco:CharacterString>
@@ -856,8 +854,6 @@ multiple keywords.
 The `marine` keyword is (AFACT) the trigger for AODN harvesting of the record,
 which is probably why eAtlas don't include that particular keyword in their
 idiosyncratic pipe separated list.
-
-TODO: check that GeoNetwork handles multiple `keyword` tags properly.
 
     <gmd:descriptiveKeywords>
       <gmd:MD_Keywords>
