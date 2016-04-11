@@ -791,9 +791,10 @@ selected from another word list.  The types are:
 * `stratum` a deposited physical layer
 * `temporal` names a time period (noting that
   [lunchtime is an illusion](http://www.goodreads.com/quotes/6344-time-is-an-illusion-lunchtime-doubly-so))
-* `taxon` means "a taxonomy" according to `gmxCodelists.xml`, which I think
-  means the keyword names a specific taxon (rather than the more silly
-  interpretation of *taxonomy* as being "Linnaean" or something like that)
+* `taxon` means "a taxonomy" according to `gmxCodelists.xml`, which must
+  mean a specific taxon within a taxonomy (a species name, rather than the
+  more silly interpretation of *taxonomy* as being "Linnaean" or something
+  like that)
 * `equipment` names gear used to collect data
 * `dataSource` is described in `gmxCodelists.xml` as "identifies data source
   eg. aggregated/derived"
@@ -851,9 +852,9 @@ Example from eAtlas shows multiple keywords with a pipe separator; the ISO
 standard allows multiple `keyword` tags, which is a more correct way to have
 multiple keywords.
 
-The `marine` keyword is (AFACT) the trigger for AODN harvesting of the record,
-which is probably why eAtlas don't include that particular keyword in their
-idiosyncratic pipe separated list.
+For eAtlas, the `marine` keyword is (AFACT) the trigger for AODN harvesting
+of the record, which is probably why eAtlas don't include that particular
+keyword in their idiosyncratic pipe separated list.
 
     <gmd:descriptiveKeywords>
       <gmd:MD_Keywords>
@@ -899,13 +900,14 @@ include usage constraints like not appropriate for navigation, or national
 security and secrecy constraints.  The `resourceConstraints` tag is optional
 and can occur multiple times.
 
-This example from ASDD shows a standard copyright claim with the corresponding
-type code.
+##### Plain copyright
+
+This example from ASDD shows a standard copyright claim.
 
     <gmd:resourceConstraints>
       <gmd:MD_LegalConstraints>
         <gmd:useLimitation>
-          <gco:CharacterString>Copyright Commonwealth of Australia  (Geoscience Australia) 2008</gco:CharacterString>
+          <gco:CharacterString>Copyright Commonwealth of Australia (Geoscience Australia) 2008</gco:CharacterString>
         </gmd:useLimitation>
         <gmd:useConstraints>
           <gmd:MD_RestrictionCode
@@ -916,28 +918,135 @@ type code.
       </gmd:MD_LegalConstraints>
     </gmd:resourceConstraints>
 
-This example also from ASDD shows a CC-BY-ND license.
 
-TODO: update this example so it's properly referring to the currently
-recommended CC licenses.
+##### Creative Commons licences
+
+MCP adds a constraint type `MD_Commons`, used to represent a licence
+selected from a common licence set such as Creative Commons.  An attribute
+is required specifying the commons type (the two acceptable values are
+`Creative Commons` and `Data Commons`). Four child tags are mandatory
+inside a `MD_Commons` tag:
+
+- `licenseName` a string naming the licence
+- `licenseLink` a URL linking to the licence text
+- `jurisdictionLink` a URL linking to jurisdiction information
+- `imageLink` a URL linking to an image representing the licence
+
+Additional optional `MD_Commons` child tags allow text describing constraints
+in various areas.
+
+- attributionConstraints
+- derivativeConstraints
+- commercialUseConstraints
+- collectiveWorksConstraints
+- otherConstraints
+
+The `MD_Commons` tag can also include zero or more `useLimitation` tags.
+
+This example is drawn from the
+[MCP 1.4 docs](http://bluenet3.antcrc.utas.edu.au/mcp-doc/extensions/MD_Commons/index.html)
+and shows a `MD_Commons` tag specifying the CC-BY-SA licence:
+
+    <gmd:resourceConstraints>
+      <mcp:MD_Commons mcp:commonsType="Creative Commons" gco:isoType="gmd:MD_Constraints">
+        <gmd:useLimitation>
+          <gco:CharacterString>
+            The data used to test this vehicle should not be
+            used for navigation purposes
+          </gco:CharacterString>
+        </gmd:useLimitation>
+        <mcp:jurisdictionLink>
+          <gmd:URL>http://creativecommons.org/international/au/</gmd:URL>
+        </mcp:jurisdictionLink>
+        <mcp:licenseLink>
+          <gmd:URL>http://creativecommons.org/licenses/by-sa/3.0/au/</gmd:URL>
+        </mcp:licenseLink>
+        <mcp:imageLink>
+          <gmd:URL>http://i.creativecommons.org/l/by-sa/3.0/au/88x31.png</gmd:URL>
+        </mcp:imageLink>
+        <mcp:licenseName>
+          <gco:CharacterString>Attribution-ShareAlike 3.0 Australia</gco:CharacterString>
+        </mcp:licenseName>
+        <mcp:attributionConstraints>
+          <gco:CharacterString>
+            Attribute as: Butte J, A horse drawn, cabbage leaf powered,
+            marine bicycle, Heath Robinson Monthly, UK Oceanographics Inc
+          </gco:CharacterString>
+        </mcp:attributionConstraints>
+        <mcp:otherConstraints>
+          <gco:CharacterString>
+            Note attribution and share alike provisions of CC license
+          </gco:CharacterString>
+        </mcp:otherConstraints>
+      </mcp:MD_Commons>
+    </gmd:resourceConstraints>
+
+The following example shows a CC-BY license, the default licence for Australian
+Government Departments and Agencies.  According to the current Australian
+copyright body [AUSGOAL](http://www.ausgoal.gov.au/creative-commons):
+
+> This licence lets others distribute, remix, tweak, and build upon your
+> work, even commercially, as long as they credit you for the original
+> creation. This is the most accommodating of licences offered. Recommended
+> for maximum dissemination and use of licensed materials.
+
+    <gmd:resourceConstraints>
+      <mcp:MD_Commons mcp:commonsType="Creative Commons" gco:isoType="gmd:MD_Constraints">
+        <mcp:jurisdictionLink>
+          <gmd:URL>http://creativecommons.org/international/au/</gmd:URL>
+        </mcp:jurisdictionLink>
+        <mcp:licenseLink>
+          <gmd:URL>http://creativecommons.org/licenses/by/3.0/au/deed.en</gmd:URL>
+        </mcp:licenseLink>
+        <mcp:imageLink>
+          <gmd:URL>http://i.creativecommons.org/l/by/3.0/au/88x15.png</gmd:URL>
+        </mcp:imageLink>
+        <mcp:licenseName>
+          <gco:CharacterString>Attribution-ShareAlike 3.0 Australia</gco:CharacterString>
+        </mcp:licenseName>
+        <mcp:attributionConstraints>
+          <gco:CharacterString>
+            Attribute as: Butte J, A horse drawn, cabbage leaf powered,
+            marine bicycle, Heath Robinson Monthly, UK Oceanographics Inc
+          </gco:CharacterString>
+        </mcp:attributionConstraints>
+        <mcp:otherConstraints>
+          <gco:CharacterString>
+            Note attribution and share alike provisions of CC license
+          </gco:CharacterString>
+        </mcp:otherConstraints>
+      </mcp:MD_Commons>
+    </gmd:resourceConstraints>
+
+
+##### Non-CC licences
+
+This example by [Steven Vandervalk](steven.vandervalk@jcu.edu.au) shows a
+[CC-Zero](https://creativecommons.org/about/cc0/) license, intended to allow
+rights holders to waive their copyright to a work.  Definitely **delete this
+section** unless the author/owner has clearly confirmed their intention to put
+their work into the public domain.
+
+Although CC0 is almost a CC licence, this example is using the generic licence
+(`useConstraints`) format and can be adapted to capture a non-CC licence.
 
     <gmd:resourceConstraints>
       <gmd:MD_LegalConstraints>
         <gmd:useLimitation>
           <gco:CharacterString>
-            http://i.creativecommons.org/l/by/2.5/au/80x15.png
+            http://i.creativecommons.org/p/zero/1.0/88x31.png
             This product is released under the
-            Creative Commons Attribution 2.5 Australia Licence
-            (http://creativecommons.org/licenses/by-nd/2.5/au/)
+            Creative Commons Zero Licence
+            (https://creativecommons.org/publicdomain/zero/1.0/legalcode)
           </gco:CharacterString>
         </gmd:useLimitation>
-        <gmd:accessConstraints>
+        <gmd:useConstraints>
           <gmd:MD_RestrictionCode
             codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode"
             codeListValue="license"
-          >license</gmd:MD_RestrictionCode>
-        </gmd:accessConstraints>
-      </gmd:MD_LegalConstraints>   
+          >copyright</gmd:MD_RestrictionCode>
+        </gmd:useConstraints>
+      </gmd:MD_LegalConstraints>
     </gmd:resourceConstraints>
 
 
