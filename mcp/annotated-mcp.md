@@ -432,6 +432,8 @@ shows a `Revision` type date without including time-of-day info).
 
 ##### Citable people
 
+TODO: Add a required notation somewhere for each section a user fills in? -SV
+
 There should be a `<citedResponsibleParty>` tag for each person who should be
 named when citing this dataset (roughly euivalent to the authors of an article).
 
@@ -930,7 +932,7 @@ to be valid MCP 2.
 #### Dataset usage
 
 The standard allows a tag `resourceSpecificUsage` that can describe ways the
-dataset has been used, allowing contact details to talk to the data users.  
+dataset has been used, allowing contact details to talk to the data users.
 I haven't included this tag; refer to
 [an ASDD sample](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
 for a usage example.
@@ -982,7 +984,7 @@ recommended CC licenses.
                     codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
                     codeListValue="license">license</gmd:MD_RestrictionCode>
             </gmd:accessConstraints>
-        </gmd:MD_LegalConstraints>   
+        </gmd:MD_LegalConstraints>
     </gmd:resourceConstraints>
 
 This example by steven.vandervalk@jcu.edu.au shows a CC-Zero license.
@@ -1224,7 +1226,7 @@ single `extent`.
     <gmd:extent>
         <gmd:EX_Extent>
 
-Now I can include a description.  
+Now I can include a description.
 
 This flavour supports a textual description of the geographic extent, for
 example a state name such as "Queensland" (which you'd actually need to write

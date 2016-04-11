@@ -522,6 +522,9 @@ Role this citable person served.
 
                 </gmd:CI_ResponsibleParty>
             </gmd:citedResponsibleParty>
+
+Each citedResponsibleParty is a new person.
+
             <gmd:citedResponsibleParty>
                 <gmd:CI_ResponsibleParty>
 
