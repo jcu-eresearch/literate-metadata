@@ -769,17 +769,17 @@ TODO: update the thesaurus reference to match JCU's GeoNetwork URLs.
     <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
             <gmd:keyword>
-                <gco:CharacterString>Oceans | Marine Biology | Marine Mammals</gco:CharacterString>
+                <gco:CharacterString>Oceans | Marine Biology | Coral | Reef | Coral Traits </gco:CharacterString>
             </gmd:keyword>
             <gmd:type>
-                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="discipline">
-                    discipline
+                <gmd:MD_KeywordTypeCode codeList="http://bluenet3.antcrc.utas.edu.au/mcp-1.4/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">
+                    theme
                 </gmd:MD_KeywordTypeCode>
             </gmd:type>
             <gmd:thesaurusName>
                 <gmd:CI_Citation>
                     <gmd:title>
-                        <gco:CharacterString>Global Change Master Directory Earth Science Keywords</gco:CharacterString>
+                        <gco:CharacterString></gco:CharacterString>
                     </gmd:title>
                     <gmd:date gco:nilReason="unknown"/>
                     <gmd:edition>
@@ -852,7 +852,7 @@ to be valid MCP 2.
 #### Dataset usage
 
 The standard allows a tag `resourceSpecificUsage` that can describe ways the
-dataset has been used, allowing contact details to talk to the data users.  
+dataset has been used, allowing contact details to talk to the data users.
 I haven't included this tag; refer to
 [an ASDD sample](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
 for a usage example.
@@ -906,7 +906,7 @@ recommended CC licenses.
                     codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#MD_RestrictionCode"
                     codeListValue="license">license</gmd:MD_RestrictionCode>
             </gmd:accessConstraints>
-        </gmd:MD_LegalConstraints>   
+        </gmd:MD_LegalConstraints>
     </gmd:resourceConstraints>
 
 
@@ -1132,7 +1132,7 @@ single `extent`.
     <gmd:extent>
         <gmd:EX_Extent>
 
-Now I can include a description.  
+Now I can include a description.
 
 This flavour supports a textual description of the geographic extent, for
 example a state name such as "Queensland" (which you'd actually need to write
