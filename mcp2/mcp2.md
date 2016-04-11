@@ -375,7 +375,7 @@ this metadata record).
 
 The title is the "official" name of the dataset that should be used in
 citations.  Making up a title is only okay if the resource being described
-has no official name.
+has no official name.  Title is required.
 
 If there are common acronyms or other alternate titles, include any number of
 `alternateTitle` tags.
@@ -626,20 +626,22 @@ collection.
       </gco:CharacterString>
     </gmd:purpose>
 
-The credit is optional and allow recognition of people and organisations who
-contributed to the dataset.  MCP 2 guidelines recommend including this tag
-but none of the examples I looked at had one.  Here's what I think it should
-look like.
+The credit is optional and allow recognition of people and organisations,
+including funding bodies, who contributed to the dataset.  MCP 2 guidelines
+recommend including this tag but none of the examples I looked at had one.  
+Here's what I think it should look like.
 
     <gmd:credit>
       <gco:CharacterString>
-        Charles Babbage, for starting it all
+        Charles Babbage, for starting it all.
+        Pepsi Max, for caffeinating it.
       </gco:CharacterString>
     </gmd:credit>
 
 The status is optional and captures the state of the dataset collection effort.
-Generally you'll use `completed` for most datasets, and `onGoing` for datasets
-that grow forever.
+This tag is also recommended by the AODN's MCP2 guidelines.  Generally you'll
+use `completed` for most datasets, and `onGoing` for datasets that grow
+forever.
 
     <gmd:status>
       <gmd:MD_ProgressCode
@@ -654,7 +656,7 @@ that grow forever.
 Who to talk to about the resource.  Elsewhere you specify the entity
 responsible for the metadata record, and the entity that manages access
 to the dataset; this is the entity who actually knows about the dataset.
-This is mandatory in MCP (it was optional in pre-MCP standards).
+This is **mandatory** in MCP (it was optional in pre-MCP standards).
 
 You've seen the `CI_ResponsibleParty` tag and its contents already; this
 time I'll supply a "blank" version (and I'm leaving off fax.  I'll leave
@@ -774,12 +776,13 @@ work in progress (optional field)
 
 #### Keywords
 
-Keywords are optional.  They must be selected from a [NASA keyword
-list](http://gcmd.nasa.gov/Resources/valids/archives/keyword_list.html), and
-the MCP standard advises that the `thesaurusName` tag and its children be
-supplied identifying the keyword list.  The first example below shows the
-recommended form; the second example shows two keywords from eAtlas that do
-not include the thesaurus reference.
+Keywords are optional, but strongly recommended by the AODN.  They must be
+selected from a
+[NASA keyword list](http://gcmd.nasa.gov/Resources/valids/archives/keyword_list.html)
+, and the MCP standard advises that the `thesaurusName` tag and its children
+be supplied identifying the NASA list.  The first example below shows the
+recommended form; the second example is of two `keyword` tags from eAtlas
+that do not include the thesaurus reference.
 
 In addition to the thesaurus reference, each set of keywords can have a `type`
 selected from another word list.  The types are:
@@ -922,10 +925,13 @@ This example from ASDD shows a standard copyright claim.
 ##### Creative Commons licences
 
 MCP adds a constraint type `MD_Commons`, used to represent a licence
-selected from a common licence set such as Creative Commons.  An attribute
-is required specifying the commons type (the two acceptable values are
-`Creative Commons` and `Data Commons`). Four child tags are mandatory
-inside a `MD_Commons` tag:
+selected from a common licence set such as Creative Commons.  This tag is
+not mandatory, but the AODN user guide suggests that it may become mandatory
+in a future version of the spec.
+
+An attribute is required specifying the commons type (the two acceptable
+values are `Creative Commons` and `Data Commons`). Four child tags are
+mandatory inside a `MD_Commons` tag:
 
 - `licenseName` a string naming the licence
 - `licenseLink` a URL linking to the licence text
@@ -1565,6 +1571,7 @@ used included:
 - `WWW:DOWNLOAD-1.0-http--download`
 - `WWW:LINK-1.0-http--downloaddata`
 
+
                   <gmd:protocol>
                     <gco:CharacterString>OGC:WMS-1.1.1-http-get-map</gco:CharacterString>
                   </gmd:protocol>
@@ -1699,11 +1706,8 @@ refer to the [ANZLIC guidelines](http://www.anzlic.gov.au/sites/default/files/fi
               <gmd:statement>
                 <gco:CharacterString>
     - Grech. A., and Marsh. H. (2007) - Prioritising areas for dugong conservation in a marine protected area using a spatially explicit population model, Applied GIS, 3(2), 1-14
-
     - Marsh H., and Saalfeld, W.K. (1989). Distribution and abundance of dugongs in the Northern Great Barrier Reef Marine Park. Australian Wildlife Research 16:429-440.
-
     - Marsh H., and Saalfeld, W.K. (1990). The distribution and abundance of dugongs in the Great Barrier Reef Marine Park south of Cape Bedford. Australian Wildlife Research 17:511-524
-
     - Marsh H., and Sinclair D.F. (1989). Correcting for visibility bias in strip transect aerial surveys of aquatic fauna. Journal of Wildlife Management. 53(4): 1017-1024
                 </gco:CharacterString>
               </gmd:statement>
@@ -1744,31 +1748,15 @@ is properly described.))
 
 **Required fields listed in AODN cookbook http://help.aodn.org.au/help/?q=node/96 ):**
 
-- CI_Citation.title
 - mcp:dataParameters
-- CI_OnlineResource
-- EX_GeographicBoundingBox
-- mcp:EX_TemporalExtent at least start and end time/date (could also include current-ness, aggregation time sections, etc)
-- gmd:citation (CI_ResponsibleParty) for dataset
-- gmd:pointofContact (CI_ResponsibleParty) for dataset
-- mcp:MD_Commons data licenses (replaces ISO19115:2003 MD_Constraints) actually not quite required but might be soon
-- MD_DataIdentification.abstract the displayed description of the dataset
+
 
 **Other important fields**
 
-- CI_Citation.date when the *metadata record* was created
-- MD_DataIdentification.credit contributors, funding bodies, etc
-- MD_DataIdentification.status ongoing, complete, historical, etc
 - MD_MaintenanceInformation.maintenanceAndUpdateFrequency ‘continual’, ‘daily’, ‘weekly’, ‘fortnightly’, ‘monthly’, ‘quarterly’, ‘biannually’, ‘annually’, ‘asNeeded’, ‘irregular’, ‘notPlanned’, ‘unknown’ (ISO 19115:2003, B.5.18 MD_MaintenanceFrequencyCode)
-- MD_DataIdentification.topicCategory use 'oceans' by default
 - EX_VerticalExtent min and max metres
-- DQ_DataQuality description of quality control or link to doc
 - mcp:samplingFrequency ‘continual’, ‘hourly’, ‘daily’, ‘weekly’, ‘fortnightly’, ‘monthly’, ‘quarterly’, ‘biannually’, ‘annually’, ‘asNeeded’, ‘irregular’, ‘notPlanned’, ‘unknown’. Reuses an extended ISO 19115:2003 B.5.18 MD_MaintenanceFrequencyCode
-- DONE CI_ResponsibleParty for this *metadata record*
-- MD_Keywords
 - CI_Citation additional info, eg. publications from this dataset
-- MD_Format distribution format e.g. Microsoft Excel 2003, CSV, etc
-- CI_ResponsibleParty contact for distribution of this resource
 
 
 ((work in progress))
