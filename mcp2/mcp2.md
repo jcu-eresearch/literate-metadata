@@ -901,6 +901,7 @@ for a usage example.
 These constraints are usually related to copyright and licensing, but can also
 include usage constraints like not appropriate for navigation, or national
 security and secrecy constraints.  The `resourceConstraints` tag is optional
+(note that the AODN hinted that a licence will become mandatory at some point)
 and can occur multiple times.
 
 ##### Plain copyright
@@ -1367,6 +1368,218 @@ Here's a list of some useful region types and codes; look inside a copy of
 
       </gmd:EX_Extent>
     </gmd:extent>
+
+
+#### Data parameters
+
+MCP2 adds the ability to describe parameters of the dataset.  This is optional
+but is required for the AODN portal's faceted navigation via *Parameter* and
+*Platform*.
+
+The structure is basically a list of `dataParameter` tags, each describing one
+of the data parameters within the dataset.  This follows the double-nesting
+you see elsewhere in iso19139.
+
+Starting the list of params:
+
+    <mcp:dataParameters>
+      <mcp:DP_DataParameters>
+
+Here's a single parameter. It must have a name and units; it can optionally
+have min and max values, a description, and the instrument(s), analysis
+method(s), and platform(s) used to measure/obtain/determine the parameter's
+values.
+
+Most of these are expressed as `DP_Term` tags, which allows controlled
+vocabularies.  I'm not including examples of the following tags, but they are
+all containers for `DP_Term` tags, so you can copy `mcp:parameterUnit` to get
+started.
+
+- `mcp:parameterDeterminationInstrument`
+- `mcp:parameterAnalysisMethod`
+- `mcp:platform`
+
+Starting a single parameter:
+
+        <mcp:dataParameter>
+          <mcp:DP_DataParameter>
+
+
+##### Parameter name, type, and "used"ness
+
+The parameter has a `parameterName`, which is a `DP_Term` type.  The name
+must include `term`, `type`, and `usedInDataset`.  It can optionally include
+either a `localDefinition` or some `vocabularyRelationship`s.
+
+The `parameterName` is what you call the parameter.  You must have at least
+one, and you can have multiple of these for a single parameter, which lets
+you express synonyms.
+
+            <mcp:parameterName>
+              <mcp:DP_Term>
+
+The `term` is what the parameter is called.  The `type` can be one of:
+
+- `shortName` is probably what you want most of the time
+- `longName`
+- `localSynonym` I presume is for specifying multiple `parameterName`s
+- `localCode`
+
+                <mcp:term>
+                  <gco:CharacterString>t</gco:CharacterString>
+                </mcp:term>
+                <mcp:type>
+                  <mcp:DP_TypeCode
+                    codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#DP_TypeCode"
+                    codeListValue="shortName"
+                  >shortName</mcp:DP_TypeCode>
+                </mcp:type>
+
+It's hard to think of good reasons you would describe a parameter that is
+not used in the the dataset, but if you did, you should set `usedInDataset`
+to false.
+
+                <mcp:usedInDataset>
+                  <gco:Boolean>true</gco:Boolean>
+                </mcp:usedInDataset>
+
+
+##### Defining the parameter: official vocabularies
+
+You can claim zero or more corresponding vocab term in an official
+vocabulary, presumably from one of these ANDS pages:
+
+- https://vocabs.ands.org.au/aodn-units-of-measure-vocabulary
+- https://vocabs.ands.org.au/aodn-discovery-parameter-vocabulary
+
+The allowable `DP_RelationshipTypeCode` values are:
+
+- `skos:exactmatch` vocab term is an exact match for the local term
+- `skos:closematch` vocab term is a close match to the local term
+- `skos:narrowmatch` vocab term is narrower in definition than the local term
+- `skos:broadmatch` vocab term is broader in definition than the local term
+
+TODO: the IMOS URLs and vocab version in the example below are not valid;
+the latest version of this doc, from github, is updated.
+
+
+                <mcp:vocabularyRelationship>
+                  <mcp:DP_VocabularyRelationship>
+                    <mcp:relationshipType>
+                      <mcp:DP_RelationshipTypeCode
+                        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#DP_RelationshipTypeCode"
+                        codeListValue="skos:exactmatch"
+                      >skos:exactmatch</mcp:DP_RelationshipTypeCode>
+                    </mcp:relationshipType>
+                    <mcp:vocabularyTermURL>
+                     <gmd:URL>http://www.imos.org.au/vocabserver?code=temperature&amp;vocab=oceanography</gmd:URL>
+                    </mcp:vocabularyTermURL>
+                    <mcp:vocabularyListURL>
+                     <gmd:URL>http://www.imos.org.au/vocabserver?vocab=oceanography</gmd:URL>
+                    </mcp:vocabularyListURL>
+                    <mcp:vocabularyListVersion>
+                      <gco:CharacterString>3.6</gco:CharacterString>
+                    </mcp:vocabularyListVersion>
+                  </mcp:DP_VocabularyRelationship>
+                </mcp:vocabularyRelationship>
+
+
+##### Defining the parameter: local definition
+
+Instead of a `vocabularyRelationship`, you can choose to supply a single
+local definition. This defines the parameter's name, it's not a description
+of the parameter which comes later.
+
+I don't have an example, but I think it would look like this:
+
+                <mcp:localDefinition>
+                  <gco:CharacterString>
+                    Estimated value of conservation in an area
+                    to long term survival of dugongs.
+                  </gco:CharacterString>
+                </mcp:localDefinition>
+
+Note that the scale, which might be something like "0 to 4: 0 = no
+conservation value, 4 = high conservation value", is not described here;
+I think that should be discussed in the `parameterUnits` tag below.
+
+(End of the parameter name.)
+
+              </mcp:DP_Term>
+            </mcp:parameterName>
+
+
+##### Units of the parameter's values
+
+The `term`, `type` and `usedInDataset` are similar to the previous section.
+
+            <mcp:parameterUnits>
+              <mcp:DP_Term>
+                <mcp:term>
+                  <gco:CharacterString>degrees celsius</gco:CharacterString>
+                </mcp:term>
+                <mcp:type>
+                  <mcp:DP_TypeCode
+              codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#DP_TypeCode"
+              codeListValue="longName">longName</mcp:DP_TypeCode>
+                </mcp:type>
+                <mcp:usedInDataset>
+                  <gco:Boolean>true</gco:Boolean>
+                </mcp:usedInDataset>
+
+
+For most units you should be able to identify a `skos:exactmatch` vocab term.
+
+                <mcp:vocabularyRelationship>
+                  <mcp:DP_VocabularyRelationship>
+                    <mcp:relationshipType>
+                      <mcp:DP_RelationshipTypeCode
+                        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#DP_RelationshipTypeCode"
+                        codeListValue="skos:exactmatch"
+                      >skos:exactmatch</mcp:DP_RelationshipTypeCode>
+                    </mcp:relationshipType>
+                    <mcp:vocabularyTermURL>
+                     <gmd:URL>http://www.imos.org.au/vocabserver?code=degreescelsius&amp;vocab=oceanography_units</gmd:URL>
+                    </mcp:vocabularyTermURL>
+                    <mcp:vocabularyListURL>
+                     <gmd:URL>http://www.imos.org.au/vocabserver?vocab=oceanography_units</gmd:URL>
+                    </mcp:vocabularyListURL>
+                    <mcp:vocabularyListVersion>
+                      <gco:CharacterString>2.1</gco:CharacterString>
+                    </mcp:vocabularyListVersion>
+                  </mcp:DP_VocabularyRelationship>
+                </mcp:vocabularyRelationship>
+              </mcp:DP_Term>
+            </mcp:parameterUnits>
+
+
+##### Parameter min and max values, and description
+
+These are all simple strings.
+
+            <mcp:parameterMinimumValue>
+              <gco:CharacterString>2.1</gco:CharacterString>
+            </mcp:parameterMinimumValue>
+            <mcp:parameterMaximumValue>
+              <gco:CharacterString>18.2</gco:CharacterString>
+            </mcp:parameterMaximumValue>
+
+            <mcp:parameterDescription>
+              <gco:CharacterString>The temperature observed by the CTD on its depth profile</gco:CharacterString>
+            </mcp:parameterDescription>
+
+
+(End of data parameter.)
+
+          </mcp:DP_DataParameter>
+        </mcp:dataParameter>
+
+
+(End of data parameter list.)
+
+      </mcp:DP_DataParameters>
+    </mcp:dataParameters>
+
 
 
 (End of identification info, and restoring original indent level)
