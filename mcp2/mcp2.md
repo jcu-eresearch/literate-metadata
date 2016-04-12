@@ -5,20 +5,24 @@
 
 This annotated metadata record is an XML document, embedded in a Markdown
 document written in a
-[Literate](https://en.wikipedia.org/wiki/Literate_programming) style.  The
-Markdown describes the XML.  Simple processing of the Markdown document
+[Literate](https://en.wikipedia.org/wiki/Literate_programming) style. The
+Markdown describes the XML. Simple processing of the Markdown document
 produces two output items; one, a HTML document for viewing in a web browser,
 and an XML document which is the MCP metadata record.
 
-A shell script is provided to do this processing.  In the interests of
+A shell script is provided to do this processing. In the interests of
 encapsulation, the final section of this document includes the source of the
 shell script.
 
 Major sources are:
 
-* the [MCP Manual 2.0
-  Draft](http://bluenet3.antcrc.utas.edu.au/mcp-doc-20-draft/), which
-  unfortunately has some broken links
+* MCP 2.0 Manual
+  * initially the
+  [MCP Manual 2.0 Draft](http://bluenet3.antcrc.utas.edu.au/mcp-doc-20-draft/),
+  which unfortunately had many broken links (and may now be inaccessible)
+  * in April 2016, Craig Jones shared
+  [this updated MCP 2.0 manual](http://mcp-profile-docs.readthedocs.org/)
+  including alterations to `dataParameters` and elsewhere
 * [ANZLIC profiles](http://asdd.ga.gov.au/asdd/profileinfo/)
 * ANZLIC Metadata Profile Guidelines 1.0
 * Example records from GeoNetwork
@@ -27,12 +31,12 @@ Major sources are:
 
 ## Temporary fixes
 
-This document attempts to comply with MCP 2.0.  This is slightly difficult
-because MCP 2.0 isn't available anywhere yet.  GeoNetwork happily uses its
-own internal definition of the MCP2 schema without noticing that the schema
-URL returns a 404, but GN still attempts to follow the various Codelist
-reference URLs.  So, for now, I'm using a path to the Codelist on github.
-
+This document attempts to comply with MCP 2.0. This is slightly difficult
+because while writing this document, the MCP 2.0 schema isn't yet available
+at any public URL. GeoNetwork happily uses its own internal definition of
+the MCP2 schema without noticing that the schema URL returns a 404, but GN
+still attempts to follow the various Codelist reference URLs. So, for now,
+I'm using a path to the Codelist on github.
 
 To switch this back, replace this github URL:
 
@@ -74,7 +78,7 @@ This identifies all the namespaces etc.
 ### "File" identifier
 
 This is a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)
-that identifies the metadata record.  The "file" part should be thought of as
+that identifies the metadata record. The "file" part should be thought of as
 relating to the abstract record, not any specific entity in a file system on
 a hard drive somewhere.
 
@@ -89,7 +93,7 @@ This is used to create parent/child relationships.
 ### Language identifier
 
 The language used in this metadata record (the record, not the language
-used in the data itself).  This can also be specified as an attribute of
+used in the data itself). This can also be specified as an attribute of
 the root element (`xmlns:language="eng"`), which would be less verbose.
 
     <gmd:language>
@@ -100,7 +104,7 @@ the root element (`xmlns:language="eng"`), which would be less verbose.
 ### Character set
 
 This declaration is perhaps an example of why XML formats didn't succeed as
-much as they should have.  This three hundred character tag describes the
+much as they should have. This three hundred character tag describes the
 encoding of the XML metadata document, and is unnecessary if your XML
 declaration in the first line (`<?xml version="1.0" encoding="UTF-8"?>`)
 specifies an encoding.
@@ -144,8 +148,8 @@ by geonetwork) when the `gco:CharacterString` tag is empty.
 ### Contacts connected to this metadata record
 
 ISO19115 makes it mandatory to supply a contact responsible for the
-**metadata record**.  So it could be an eResearch staff member rather than
-an academic.  The actual data here is from the [ASDD example
+**metadata record**. So it could be an eResearch staff member rather than
+an academic. The actual data here is from the [ASDD example
 record](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
 from the [ASDD site](http://asdd.ga.gov.au/asdd/profileinfo/).
 
@@ -153,12 +157,12 @@ from the [ASDD site](http://asdd.ga.gov.au/asdd/profileinfo/).
       <gmd:CI_ResponsibleParty>
 
 Note the claimed effect of the `gco:nilReason="withheld"` in the following
-section.  GeoNetwork does NOT respect this, so don't use `withheld`.
+section. GeoNetwork does NOT respect this, so don't use `withheld`.
 
 Also, note that the `individualName` field's value, copied from an ASDD
 example, is formatted incorrectly according to the ISO19115 spec -- the
 proper name format is `Surname GivenName Title` separated by a
-"single delimiter".  The standard gives a space as the example of a delimiter.
+"single delimiter". The standard gives a space as the example of a delimiter.
 Later in the `citedResponsibleParty` section I've included the eAtlas example
 that uses comma+space `, ` as the delimiter.
 
@@ -252,9 +256,9 @@ but you get some special client behaviour if you choose the right ones.
         </gmd:contactInfo>
 
 This contact is the metadata record handler, so should include the
-`metadataContact` or `pointOfContact` role.  The ASDD sample file didn't
+`metadataContact` or `pointOfContact` role. The ASDD sample file didn't
 include the string value, but eAtlas do, so I've included the eAtlas
-example here.  The ASDD version used a self-closing `gmd:CI_RoleCode` tag.
+example here. The ASDD version used a self-closing `gmd:CI_RoleCode` tag.
 
         <gmd:role>
           <gmd:CI_RoleCode
@@ -274,7 +278,7 @@ example here.  The ASDD version used a self-closing `gmd:CI_RoleCode` tag.
 
 ### Creation date of metadata record
 
-This `dateStamp` is the creation date of this record.  It will never change.
+This `dateStamp` is the creation date of this record. It will never change.
 The date format is [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) so you
 can in theory use all sorts of crazy stuff like year-plus-ordinal-days
 (`1999-365`), but the ANZLIC spec asks you to use one of a few formats, and
@@ -316,10 +320,10 @@ To save some indenting space, I'm resetting the indentation for
 the content of this `MD_DataIdentification` tag -- the following XML is two
 levels less indented than you would expect.
 
-**Tag ordering matters here**.  Unfortunately it's unclear what
-the correct order is.  The XML standard defines one set, and a list in a
+**Tag ordering matters here**. Unfortunately it's unclear what
+the correct order is. The XML standard defines one set, and a list in a
 software requirement specification forwarded by Roger Proctor asks for a
-different ordering.  Another fun detail is how the two lists don't include
+different ordering. Another fun detail is how the two lists don't include
 the same tags.
 
 List from [the schema](https://github.com/aodn/schema-plugins/blob/master/iso19139.mcp-2.0/schema/gmd/identification.xsd):
@@ -374,8 +378,8 @@ this metadata record).
 ##### Title and date
 
 The title is the "official" name of the dataset that should be used in
-citations.  Making up a title is only okay if the resource being described
-has no official name.  Title is required.
+citations. Making up a title is only okay if the resource being described
+has no official name. Title is required.
 
 If there are common acronyms or other alternate titles, include any number of
 `alternateTitle` tags.
@@ -398,7 +402,10 @@ you should switch the `gco:DateTime` for a `gco:Date` tag.
               <gco:DateTime>2007-03-05T11:50:00</gco:DateTime>
             </gmd:date>
             <gmd:dateType>
-              <gmd:CI_DateTypeCode codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+              <gmd:CI_DateTypeCode
+                codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
+                codeListValue="publication"
+              >publication</gmd:CI_DateTypeCode>
             </gmd:dateType>
           </gmd:CI_Date>
         </gmd:date>
@@ -410,25 +417,25 @@ There should be a `<citedResponsibleParty>` tag for each person who should be
 named when citing this dataset (roughly equivalent to the authors of an
 article).
 
-Each `citedResponsibleParty` contains one `CI_ResponsibleParty`.  This follows
+Each `citedResponsibleParty` contains one `CI_ResponsibleParty`. This follows
 the `CI_ResponsibleParty` already described in the *Contacts connected to this
 metadata record* section above.
 
         <gmd:citedResponsibleParty>
           <gmd:CI_ResponsibleParty>
 
-Individual identification for the citable person.  Note that the ISO19115 spec
+Individual identification for the citable person. Note that the ISO19115 spec
 requires `Surname`, then `GivenName`, then `Title` separated by "the same
-single delimiter".  This example from eAtlas originally used a two character
+single delimiter". This example from eAtlas originally used a two character
 sequence, comma+space `, ` as the delimiter (i.e. the value of the
 `individualName` tag was `<gco:CharacterString>Grech, Alana,
-Dr.</gco:CharacterString>`).  From the spec's description I can't tell if a
-two-char delimiter is okay or not.  I've used a single space in this example.
+Dr.</gco:CharacterString>`). From the spec's description I can't tell if a
+two-char delimiter is okay or not. I've used a single space in this example.
 
 GeoNetwork seems to just present the full string, so a space delimiter can be
 confusing (e.g. when the honourable Baron Sascha Coen, the Baron of
 Nettlestone, is referenced, he will appear as `Coen Sascha Baron`, which
-appears ambiguous).  I recommend using a comma + space for readability.
+appears ambiguous). I recommend using a comma + space for readability.
 
 You need only include one of `individualName`, `organisationName`, and
 `positionName`.
@@ -441,7 +448,8 @@ The ISO spec says it's okay to have an acronym after the org name, e.g. `Ian
 Atkinson Innovation University (IAIU)`.
 
             <gmd:organisationName>
-              <gco:CharacterString>Coral Reef Studies ARC Centre of Excellence, James Cook University</gco:CharacterString>
+              <gco:CharacterString>Coral Reef Studies ARC Centre of
+              Excellence, James Cook University</gco:CharacterString>
             </gmd:organisationName>
 
 Position name can't include abbreviations.
@@ -450,7 +458,7 @@ Position name can't include abbreviations.
               <gco:CharacterString>Postdoctoral Fellow</gco:CharacterString>
             </gmd:positionName>
 
-Contact info for the citable person.  Note the occasional
+Contact info for the citable person. Note the occasional
 `gco:nilReason="missing"`.
 
             <gmd:contactInfo>
@@ -553,7 +561,7 @@ Here's another example of a citable person, so this record will have two
                 </gmd:address>
 
 This person's info includes an onlineResource, which is a link to their staff
-page.  It takes around 1,000 characters to include this 60-character URL.  The
+page. It takes around 1,000 characters to include this 60-character URL. The
 two orders of magnitude is because XML is 100 times better than just text.
 
 Options for the `protocol` tag's value are discussed in the later section on
@@ -599,14 +607,14 @@ how to get the dataset; here, you probably want to stick with
 
 The abstract is mandatory, describes the content of the data being described,
 and should be carefully composed to give a reader a good sense of fitness for
-purpose.  This is usually mined for keyword searches, so include any relevant
+purpose. This is usually mined for keyword searches, so include any relevant
 keywords.
 
     <gmd:abstract>
       <gco:CharacterString>
         This dataset shows a spatial model of somthing relative to another
         thing in a specified area, based on data collected over a period
-        of some years.  For more information on the methods used in the
+        of some years. For more information on the methods used in the
         creation of this dataset see Grech. A., and Marsh. H. (2007) -
         Prioritising things for conservation in a marine protected area
         using a spatially explicit population model, Applied GIS, 3(2),
@@ -627,8 +635,8 @@ collection.
     </gmd:purpose>
 
 The credit is optional and allow recognition of people and organisations,
-including funding bodies, who contributed to the dataset.  MCP 2 guidelines
-recommend including this tag but none of the examples I looked at had one.  
+including funding bodies, who contributed to the dataset. MCP 2 guidelines
+recommend including this tag but none of the examples I looked at had one.
 Here's what I think it should look like.
 
     <gmd:credit>
@@ -639,7 +647,7 @@ Here's what I think it should look like.
     </gmd:credit>
 
 The status is optional and captures the state of the dataset collection effort.
-This tag is also recommended by the AODN's MCP2 guidelines.  Generally you'll
+This tag is also recommended by the AODN's MCP2 guidelines. Generally you'll
 use `completed` for most datasets, and `onGoing` for datasets that grow
 forever.
 
@@ -653,13 +661,13 @@ forever.
 
 #### Point of contact
 
-Who to talk to about the resource.  Elsewhere you specify the entity
+Who to talk to about the resource. Elsewhere you specify the entity
 responsible for the metadata record, and the entity that manages access
 to the dataset; this is the entity who actually knows about the dataset.
 This is **mandatory** in MCP (it was optional in pre-MCP standards).
 
 You've seen the `CI_ResponsibleParty` tag and its contents already; this
-time I'll supply a "blank" version (and I'm leaving off fax.  I'll leave
+time I'll supply a "blank" version (and I'm leaving off fax. I'll leave
 adding it back when necessary as an exercise for the reader).
 
     <gmd:pointOfContact>
@@ -731,11 +739,11 @@ work in progress - optional field
 #### Thumbnails
 
 You can optionally supply thumbnails for the dataset by providing
-`graphicOverview` tags.  Only the `fileName` tag is required inside
+`graphicOverview` tags. Only the `fileName` tag is required inside
 `graphicOverview > MD_BrowseGraphic`.
 
 Samples here are from the ASDD example (which uses a full URL for the
-thumbnail) and eAtlas (which uses a plain filename).  I'm not sure how
+thumbnail) and eAtlas (which uses a plain filename). I'm not sure how
 GeoNetwork goes about locating the file.
 
 TODO: investigate how GeoNetwork resolves thumbnail file paths.
@@ -776,16 +784,16 @@ work in progress (optional field)
 
 #### Keywords
 
-Keywords are optional, but strongly recommended by the AODN.  They must be
+Keywords are optional, but strongly recommended by the AODN. They must be
 selected from a
 [NASA keyword list](http://gcmd.nasa.gov/Resources/valids/archives/keyword_list.html)
 , and the MCP standard advises that the `thesaurusName` tag and its children
-be supplied identifying the NASA list.  The first example below shows the
+be supplied identifying the NASA list. The first example below shows the
 recommended form; the second example is of two `keyword` tags from eAtlas
 that do not include the thesaurus reference.
 
 In addition to the thesaurus reference, each set of keywords can have a `type`
-selected from another word list.  The types are:
+selected from another word list. The types are:
 
 * `theme` is the subject or topic, and is the one you probably want most of
   the time
@@ -890,7 +898,7 @@ keyword in their idiosyncratic pipe separated list.
 #### Dataset usage
 
 The standard allows a tag `resourceSpecificUsage` that can describe ways the
-dataset has been used, allowing contact details to talk to the data users.  
+dataset has been used, allowing contact details to talk to the data users.
 I haven't included this tag; refer to
 [an ASDD sample](http://asdd.ga.gov.au/asdd/profileinfo/ANZCW0703008022testSchematron.xml)
 for a usage example.
@@ -900,7 +908,7 @@ for a usage example.
 
 These constraints are usually related to copyright and licensing, but can also
 include usage constraints like not appropriate for navigation, or national
-security and secrecy constraints.  The `resourceConstraints` tag is optional
+security and secrecy constraints. The `resourceConstraints` tag is optional
 (note that the AODN hinted that a licence will become mandatory at some point)
 and can occur multiple times.
 
@@ -926,7 +934,7 @@ This example from ASDD shows a standard copyright claim.
 ##### Creative Commons licences
 
 MCP adds a constraint type `MD_Commons`, used to represent a licence
-selected from a common licence set such as Creative Commons.  This tag is
+selected from a common licence set such as Creative Commons. This tag is
 not mandatory, but the AODN user guide suggests that it may become mandatory
 in a future version of the spec.
 
@@ -989,7 +997,7 @@ and shows a `MD_Commons` tag specifying the CC-BY-SA licence:
     </gmd:resourceConstraints>
 
 The following example shows a CC-BY license, the default licence for Australian
-Government Departments and Agencies.  According to the current Australian
+Government Departments and Agencies. According to the current Australian
 copyright body [AUSGOAL](http://www.ausgoal.gov.au/creative-commons):
 
 > This licence lets others distribute, remix, tweak, and build upon your
@@ -1030,7 +1038,7 @@ copyright body [AUSGOAL](http://www.ausgoal.gov.au/creative-commons):
 
 This example by [Steven Vandervalk](steven.vandervalk@jcu.edu.au) shows a
 [CC-Zero](https://creativecommons.org/about/cc0/) license, intended to allow
-rights holders to waive their copyright to a work.  Definitely **delete this
+rights holders to waive their copyright to a work. Definitely **delete this
 section** unless the author/owner has clearly confirmed their intention to put
 their work into the public domain.
 
@@ -1080,13 +1088,13 @@ language and character set of the *dataset itself*.
 
 #### Topic
 
-Topic is mandatory.  It classifies the "theme" of the data (or "themes", as
+Topic is mandatory. It classifies the "theme" of the data (or "themes", as
 you can have several of this tag) and should be drawn from [the
 MD_TopicCategoryCode
 list](https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_TopicCategoryCode),
 although in this case there is no need for a reference to the codelist URL.
 
-Datasets destined for the AODN should use `oceans`.  Other alternatives are:
+Datasets destined for the AODN should use `oceans`. Other alternatives are:
 
 - `biota`
 - `climatologyMeteorologyAtmosphere`, `environment`
@@ -1139,7 +1147,7 @@ corresponding time period.
 
 ##### Geographic flavour
 
-This example includes various `geographicElement` types.  The west and east
+This example includes various `geographicElement` types. The west and east
 bounds are required to be in the range -180 to 180, so a bounding box spanning
 the dateline will have `westBoundLongitude` > `eastBoundLongitude`.
 
@@ -1160,11 +1168,11 @@ the dateline will have `westBoundLongitude` > `eastBoundLongitude`.
           </gmd:EX_GeographicBoundingBox>
         </gmd:geographicElement>
 
-Polygons are supported.  The example below is taken from the ASDD sample
+Polygons are supported. The example below is taken from the ASDD sample
 document, but I've removed an initial blank `pos` (it stopped GeoNetwork
 from displaying the polygon at all) and I've switched the `srsName` from
 `EPSG::4283` (an Australian-continent-focused SRS) to `EPSG:4326` (common ol'
-WGS84).  The original value confused GeoNetwork into swapping lats and longs
+WGS84). The original value confused GeoNetwork into swapping lats and longs
 (or possibly that SRS actually uses lng-lat, and the original polygon author
 got it wrong).
 
@@ -1172,7 +1180,7 @@ GML lets you specify interior rings (for holes in your coverage polygon), so
 good luck with the [GML standard](http://www.opengeospatial.org/standards/gml).
 
 You can specify multiple bounding boxes or multiple polygons by repeating
-the `geographicElement` tag.  GML objects (like `Polygon`) require an `id`
+the `geographicElement` tag. GML objects (like `Polygon`) require an `id`
 attribute; if you have multiples, remember to use unique `id`s.
 
         <gmd:geographicElement>
@@ -1266,7 +1274,7 @@ GML objects need `id`s, so remember to add those where indicated.
 ##### Description flavour
 
 Before I show you a description type of `geographicElement`, I'll close the
-current `extent` tag, and open a new one.  I can't find a reference in any
+current `extent` tag, and open a new one. I can't find a reference in any
 implementation guides, but GeoNetwork seems to choke if a description is
 present with a bounding box.
 
@@ -1282,8 +1290,8 @@ Now I can include a description-type geographic identifier.
 
 This flavour supports a textual description of the geographic extent, for
 example a state name such as "Queensland" (which you'd actually need to write
-as `QLD`).  This section is surprisingly verbose; I'll indicate the bits you
-need to change.  (Also, since it takes tags nested nine or ten deep to say a
+as `QLD`). This section is surprisingly verbose; I'll indicate the bits you
+need to change. (Also, since it takes tags nested nine or ten deep to say a
 location name, I've reset indenting for this section.)
 
     <gmd:geographicElement>
@@ -1372,12 +1380,12 @@ Here's a list of some useful region types and codes; look inside a copy of
 
 #### Data parameters
 
-MCP2 adds the ability to describe parameters of the dataset.  This is optional
+MCP2 adds the ability to describe parameters of the dataset. This is optional
 but is required for the AODN portal's faceted navigation via *Parameter* and
 *Platform*.
 
 The structure is basically a list of `dataParameter` tags, each describing one
-of the data parameters within the dataset.  This follows the double-nesting
+of the data parameters within the dataset. This follows the double-nesting
 you see elsewhere in iso19139.
 
 Starting the list of params:
@@ -1391,7 +1399,7 @@ method(s), and platform(s) used to measure/obtain/determine the parameter's
 values.
 
 Most of these are expressed as `DP_Term` tags, which allows controlled
-vocabularies.  I'm not including examples of the following tags, but they are
+vocabularies. I'm not including examples of the following tags, but they are
 all containers for `DP_Term` tags, so you can copy `mcp:parameterUnit` to get
 started.
 
@@ -1407,18 +1415,18 @@ Starting a single parameter:
 
 ##### Parameter name, type, and "used"ness
 
-The parameter has a `parameterName`, which is a `DP_Term` type.  The name
-must include `term`, `type`, and `usedInDataset`.  It can optionally include
+The parameter has a `parameterName`, which is a `DP_Term` type. The name
+must include `term`, `type`, and `usedInDataset`. It can optionally include
 either a `localDefinition` or some `vocabularyRelationship`s.
 
-The `parameterName` is what you call the parameter.  You must have at least
+The `parameterName` is what you call the parameter. You must have at least
 one, and you can have multiple of these for a single parameter, which lets
 you express synonyms.
 
             <mcp:parameterName>
               <mcp:DP_Term>
 
-The `term` is what the parameter is called.  The `type` can be one of:
+The `term` is what the parameter is called. The `type` can be one of:
 
 - `shortName` is probably what you want most of the time
 - `longName`
@@ -1597,7 +1605,7 @@ whom the data is available.
         <gmd:MD_Distribution>
 
 The `MD_Distribution` tag is required to include a `distributionFormat` and/or
-a `distributorFormat`.  ANZLIC recommends `distributorFormat`.
+a `distributorFormat`. ANZLIC recommends `distributorFormat`.
 
 The `MD_Distribution` tag may also include `transferOptions` tags that
 describe ways to get the data -- both online methods like download links and
@@ -1626,13 +1634,13 @@ by including this tag with no content:
           </gmd:distributionFormat>
 
 Here are additional `distributionFormat` examples; delete the ones you don't
-want.  The ANZLIC sample prefixes all the format descriptions with the string
+want. The ANZLIC sample prefixes all the format descriptions with the string
 "DIGITAL - ", but the standard says it should be a "concise title" for the
 format, so I'm not using a prefix for digital file formats.
 
 The ANZLIC standard's recommended technique for not supplying a version
 number is to claim `nilReason="inapplicable"`, but the ANZLIC sample file
-used a literal value of `none` instead.  I've included both strategies in
+used a literal value of `none` instead. I've included both strategies in
 these examples; using `none` is a little more acceptable to GeoNetwork's
 edit pages.
 
@@ -1676,10 +1684,10 @@ edit pages.
 
 #### Distributor
 
-This distributor example comes from an ASDD sample record.  Although
+This distributor example comes from an ASDD sample record. Although
 recommended by ANZLIC, this tag doesn't appear in eAtlas or the MCP2 minsample,
 and I suspect is less relevant in a world where actually getting the dataset
-is built in to the metadata browsing platform.  Hence I'm just including the
+is built in to the metadata browsing platform. Hence I'm just including the
 ASDD sample tag verbatim for your edification, leaving any adaptation as an
 exercise for the reader -- don't forget to set the `fees` tag appropriately.
 
@@ -1738,10 +1746,10 @@ exercise for the reader -- don't forget to set the `fees` tag appropriately.
 
 #### How to get the dataset
 
-Here are the `transferOptions` mentioned before.  eAtlas and the minsample from
+Here are the `transferOptions` mentioned before. eAtlas and the minsample from
 GeoNetwork use a single `transferOptions` tag that contains a single
-`MD_DigitalTransferOptions` tag, that contains multiple `onLine` tags.  The
-ASDD example uses multiple `transferOptions` tags.  Here I'm including the
+`MD_DigitalTransferOptions` tag, that contains multiple `onLine` tags. The
+ASDD example uses multiple `transferOptions` tags. Here I'm including the
 single wrapping set of tags from eAtlas.
 
           <gmd:transferOptions>
@@ -1762,22 +1770,22 @@ The `linkage` tag is required to contain a URL that conforms to
 The `protocol` looks like a standardised string, but AFAICT it's not a
 restricted list, and the set of common values is just defined by GeoNetwork.
 
-The ANZLIC standard uses `HTTP` as its example.  The MCP examples I've seen
+The ANZLIC standard uses `HTTP` as its example. The MCP examples I've seen
 used included:
 
-- `WWW:LINK-1.0-http--link` for a plain ol' link.  eAtlas use this to link to
+- `WWW:LINK-1.0-http--link` for a plain ol' link. eAtlas use this to link to
   the ePrints URL for the data's corresponding article, and the article title
   is used in the `description` tag.
-- `WWW:LINK-1.0-http--metadata-URL` for a link to a metadata record.  eAtlas
+- `WWW:LINK-1.0-http--metadata-URL` for a link to a metadata record. eAtlas
   use this to link to a nice "point-of-truth" human readable page rather than
   their GeoNetwork.
-- `OGC:WMS-1.1.1-http-get-map` for the WMS URL.  The layer name (which for
+- `OGC:WMS-1.1.1-http-get-map` for the WMS URL. The layer name (which for
   GeoServer will include the namespace code and colon as a prefix) should be
   supplied as the `name`.
-- `WWW:LINK-1.0-http--related` for a related link.  eAtlas use that to link to
-  the service record for their whole eAtlas mapping site.  This is probably a
+- `WWW:LINK-1.0-http--related` for a related link. eAtlas use that to link to
+  the service record for their whole eAtlas mapping site. This is probably a
   good strategy for giving the user some ability to do their own searching.
-- `WWW:DOWNLOAD-1.0-http--downloaddata` for a link to get data.  I don't know
+- `WWW:DOWNLOAD-1.0-http--downloaddata` for a link to get data. I don't know
   when you would use this vs the WWW:LINK...downloaddata version.
 - `OGC:SOS-1.0.0-http-post-observation`
 - `OGC:WMC-1.1.0-http-get-capabilities`
@@ -1789,7 +1797,7 @@ used included:
                     <gco:CharacterString>OGC:WMS-1.1.1-http-get-map</gco:CharacterString>
                   </gmd:protocol>
 
-The `name` is the actual identifying name for the thing linked to.  For WMS
+The `name` is the actual identifying name for the thing linked to. For WMS
 layers coming from GeoServer, the layer name should be prefixed with namespace
 and a colon.
 
@@ -1797,8 +1805,8 @@ and a colon.
                     <gco:CharacterString>ea:GBR_MTSRF_Grech_JCU_Dugong-dist-1986-2005</gco:CharacterString>
                   </gmd:name>
 
-The `description` describes what's linked to.  eAtlas puts article titles here
-when linking to articles in ePrints or elsewhere.  You can describe file
+The `description` describes what's linked to. eAtlas puts article titles here
+when linking to articles in ePrints or elsewhere. You can describe file
 formats here too.
 
 
@@ -1885,7 +1893,7 @@ This optional element describes the quality of the data in the dataset.
         <gmd:DQ_DataQuality>
 
 You can specify the scope of this statement; an eAtlas example used a empty
-element here (i.e. `<gmd:DQ_Scope />`), which GeoNetwork doesn't accept.  For
+element here (i.e. `<gmd:DQ_Scope />`), which GeoNetwork doesn't accept. For
 anything we're using MCP2.0 for, you'll almost certainly want `dataset`.
 
           <gmd:scope>
@@ -1899,19 +1907,19 @@ anything we're using MCP2.0 for, you'll almost certainly want `dataset`.
             </gmd:DQ_Scope>
           </gmd:scope>
 
-`report` covers qualitative quality information.  You need either this or
+`report` covers qualitative quality information. You need either this or
 `lineage`, or both.
 
 `lineage` and the `statement` tag it contains should be a brief history of
 the resource, the idea being that this is non-quantitative claims about the
-data quality.  eAtlas cites articles.
+data quality. eAtlas cites articles.
 
 `lineage` can also include a series of `processStep` tags, each describing a
-step in the processing of the data.  `processStep`s can each have a description,
+step in the processing of the data. `processStep`s can each have a description,
 a rationale, a date/time (or range), a processor (the person or organisation
 connected to that step), source data for that step, and some other stuff.
 
-I'll document `processStep`s when I've seen some examples of it.  For now,
+I'll document `processStep`s when I've seen some examples of it. For now,
 refer to the [ANZLIC guidelines](http://www.anzlic.gov.au/sites/default/files/files/ANZLICmetadataProfileGuidelines_v1-2.pdf) for more information.
 
           <gmd:lineage>
@@ -1977,7 +1985,7 @@ is properly described.))
 ## De-literating this document
 
 Below is a example of a script that can be used to extract XML and HTML from
-the Markdown source of this document.  The XML document is simply composed of
+the Markdown source of this document. The XML document is simply composed of
 all the lines of the Markdown that have a four space indent, with the indent
 removed.
 
@@ -1985,7 +1993,7 @@ This script assumes a Markdown processor is present (`commonmark`), and that
 `header.html` and `footer.html` files exist that will be concatenated to the
 top and bottom of the produced HTML.
 
-The script provided is for Unix-type machines (OSX, Linux, BSD etc).  If you
+The script provided is for Unix-type machines (OSX, Linux, BSD etc). If you
 are using MS Windows you will need to do some rewriting.
 
 <pre class="small">
@@ -2001,7 +2009,7 @@ HTML_FOOTER="./_includes/footer.html"
 
 if [ $# -eq 0 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "deliterate - takes literate Markdown doc, renders to html, also extracts code."
-  echo "Specify input file as first argument.  Outputs HTML and XML."
+  echo "Specify input file as first argument. Outputs HTML and XML."
   echo "Example: ./deliterate.sh mcp/annotated-mcp.md"
   echo "         (reads mcp/annotated-mcp.md, creates mcp/filename.md.html and mcp/filename.md.xml)"
   exit 1
