@@ -1310,7 +1310,7 @@ location name, I've reset indenting for this section.)
                     </gmd:date>
                     <gmd:dateType>
                       <gmd:CI_DateTypeCode
-                        codeList="http://asdd.ga.gov.au/asdd/profileinfo/gmxCodelists.xml#CI_DateTypeCode"
+                        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
                         codeListValue="revision"
                       >revision</gmd:CI_DateTypeCode>
                     </gmd:dateType>
@@ -1382,21 +1382,20 @@ Here's a list of some useful region types and codes; look inside a copy of
 
 MCP2 adds the ability to describe parameters of the dataset. This is optional
 but is required for the AODN portal's faceted navigation via *Parameter* and
-*Platform*.
+*Platform*.  You can't have more than one list.
 
 The structure is basically a list of `dataParameter` tags, each describing one
-of the data parameters within the dataset. This follows the double-nesting
-you see elsewhere in iso19139.
+of the data parameters within the dataset. There's afair bit of the *thing* >
+*XY_Thing* double-nesting you see elsewhere in iso19139.
 
 Starting the list of params:
 
     <mcp:dataParameters>
       <mcp:DP_DataParameters>
 
-Here's a single parameter. It must have a name and units; it can optionally
-have min and max values, a description, and the instrument(s), analysis
-method(s), and platform(s) used to measure/obtain/determine the parameter's
-values.
+Here's a single parameter. It *must* have a name and units; it can optionally
+have min and max values, and the instrument(s), analysis method(s), and
+platform(s) used to measure/obtain/determine the parameter's values.
 
 Most of these are expressed as `DP_Term` tags, which allows controlled
 vocabularies. I'm not including examples of the following tags, but they are
@@ -1416,8 +1415,8 @@ Starting a single parameter:
 ##### Parameter name, type, and "used"ness
 
 The parameter has a `parameterName`, which is a `DP_Term` type. The name
-must include `term`, `type`, and `usedInDataset`. It can optionally include
-either a `localDefinition` or some `vocabularyRelationship`s.
+must include `term`, `type`, and `usedInDataset`. It must include either a
+`termDefinition` or some `vocabularyRelationship`s.
 
 The `parameterName` is what you call the parameter. You must have at least
 one, and you can have multiple of these for a single parameter, which lets
@@ -1428,19 +1427,23 @@ you express synonyms.
 
 The `term` is what the parameter is called. The `type` can be one of:
 
-- `shortName` is probably what you want most of the time
-- `longName`
-- `localSynonym` I presume is for specifying multiple `parameterName`s
-- `localCode`
+- `shortName` requires a `vocabularyTermURL`.
+- `longName` requires a `vocabularyTermURL`.
+- `localSynonym` requires a `termDefinition`.
+- `localCode` requires a `termDefinition`.
+
+
 
                 <mcp:term>
-                  <gco:CharacterString>t</gco:CharacterString>
+                  <gco:CharacterString>
+                    Temperature of the water body
+                  </gco:CharacterString>
                 </mcp:term>
                 <mcp:type>
                   <mcp:DP_TypeCode
                     codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#DP_TypeCode"
-                    codeListValue="shortName"
-                  >shortName</mcp:DP_TypeCode>
+                    codeListValue="longName"
+                  >longName</mcp:DP_TypeCode>
                 </mcp:type>
 
 It's hard to think of good reasons you would describe a parameter that is
@@ -1460,15 +1463,68 @@ vocabulary, presumably from one of these ANDS pages:
 - https://vocabs.ands.org.au/aodn-units-of-measure-vocabulary
 - https://vocabs.ands.org.au/aodn-discovery-parameter-vocabulary
 
-The allowable `DP_RelationshipTypeCode` values are:
+If you're using a `shortName` or `longName`, the minimum you need to supply
+is a `vocabularyTermURL`.
+
+Adapt this url to match the one for your vocab term:
+
+                <mcp:vocabularyTermURL>
+                  <gmd:URL>http://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01</gmd:URL>
+                </mcp:vocabularyTermURL>
+
+These descriptions of the vocab publisher, version, and service URL are
+probably already correct:
+
+                <mcp:vocabularyTermPublisher>
+                  <gmd:CI_Citation>
+                    <gmd:title>
+                      <gco:CharacterString>AODN Discovery Parameter Vocabulary</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                      <gmd:CI_Date>
+                        <gmd:date>
+                          <gco:Date>2015-09-01</gco:Date>
+                        </gmd:date>
+                        <gmd:dateType>
+                          <gmd:CI_DateTypeCode
+                            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
+                            codeListValue="creation"
+                          >creation</gmd:CI_DateTypeCode>
+                        </gmd:dateType>
+                      </gmd:CI_Date>
+                    </gmd:date>
+                    <gmd:citedResponsibleParty>
+                      <gmd:CI_ResponsibleParty>
+                        <gmd:organisationName>
+                          <gco:CharacterString>eMarine Information Infrastructure (eMII)</gco:CharacterString>
+                        </gmd:organisationName>
+                        <gmd:role>
+                          <gmd:CI_RoleCode
+                            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+                            codeListValue="publisher"
+                          >publisher</gmd:CI_RoleCode>
+                        </gmd:role>
+                      </gmd:CI_ResponsibleParty>
+                    </gmd:citedResponsibleParty>
+                  </gmd:CI_Citation>
+                </mcp:vocabularyTermPublisher>
+
+                <mcp:vocabularyServiceURL>
+                  <gmd:URL>http://vocabs.ands.org.au/repository/api/lda/aodn/aodn-discoveryparameter-vocabulary/version-1-0/concept</gmd:URL>
+                </mcp:vocabularyServiceURL>
+
+                <mcp:vocabularyVersion>
+                  <gco:CharacterString>1.0</gco:CharacterString>
+                </mcp:vocabularyVersion>
+
+You can have zero or more `vocabularyRelationship`s, which define connections
+between this data parameter and other vocab words. The allowable
+`DP_RelationshipTypeCode` values are:
 
 - `skos:exactmatch` vocab term is an exact match for the local term
 - `skos:closematch` vocab term is a close match to the local term
 - `skos:narrowmatch` vocab term is narrower in definition than the local term
 - `skos:broadmatch` vocab term is broader in definition than the local term
-
-TODO: the IMOS URLs and vocab version in the example below are not valid;
-the latest version of this doc, from github, is updated.
 
 
                 <mcp:vocabularyRelationship>
@@ -1476,40 +1532,38 @@ the latest version of this doc, from github, is updated.
                     <mcp:relationshipType>
                       <mcp:DP_RelationshipTypeCode
                         codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#DP_RelationshipTypeCode"
-                        codeListValue="skos:exactmatch"
-                      >skos:exactmatch</mcp:DP_RelationshipTypeCode>
+                        codeListValue="skos:closematch"
+                      >skos:closematch</mcp:DP_RelationshipTypeCode>
                     </mcp:relationshipType>
-                    <mcp:vocabularyTermURL>
-                     <gmd:URL>http://www.imos.org.au/vocabserver?code=temperature&amp;vocab=oceanography</gmd:URL>
-                    </mcp:vocabularyTermURL>
-                    <mcp:vocabularyListURL>
-                     <gmd:URL>http://www.imos.org.au/vocabserver?vocab=oceanography</gmd:URL>
-                    </mcp:vocabularyListURL>
-                    <mcp:vocabularyListVersion>
-                      <gco:CharacterString>3.6</gco:CharacterString>
-                    </mcp:vocabularyListVersion>
+                    <mcp:relatedTermURL>
+                      <gmd:URL>http://gcmdservices.gsfc.nasa.gov/kms/concept/61594015-4ab4-4b38-ae4f-e31a4757b065</gmd:URL>
+                    </mcp:relatedTermURL>
+                    <mcp:relatedTerm>
+                      <gco:CharacterString>Water Temperature</gco:CharacterString>
+                    </mcp:relatedTerm>
                   </mcp:DP_VocabularyRelationship>
                 </mcp:vocabularyRelationship>
 
 
+
 ##### Defining the parameter: local definition
 
-Instead of a `vocabularyRelationship`, you can choose to supply a single
-local definition. This defines the parameter's name, it's not a description
-of the parameter which comes later.
+Instead of a `vocabularyTermURL`, you can choose to supply a simple
+definition (technically you can have both, but you must have one or the other,
+and which one you require depends on the `type` you gave this parameter).  
 
 I don't have an example, but I think it would look like this:
 
-                <mcp:localDefinition>
+                <mcp:termDefinition>
                   <gco:CharacterString>
                     Estimated value of conservation in an area
                     to long term survival of dugongs.
                   </gco:CharacterString>
-                </mcp:localDefinition>
+                </mcp:termDefinition>
 
 Note that the scale, which might be something like "0 to 4: 0 = no
 conservation value, 4 = high conservation value", is not described here;
-I think that should be discussed in the `parameterUnits` tag below.
+that should (I think) be discussed in the `parameterUnits` tag below.
 
 (End of the parameter name.)
 
@@ -1538,27 +1592,61 @@ The `term`, `type` and `usedInDataset` are similar to the previous section.
 
 For most units you should be able to identify a `skos:exactmatch` vocab term.
 
-                <mcp:vocabularyRelationship>
-                  <mcp:DP_VocabularyRelationship>
-                    <mcp:relationshipType>
-                      <mcp:DP_RelationshipTypeCode
-                        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#DP_RelationshipTypeCode"
-                        codeListValue="skos:exactmatch"
-                      >skos:exactmatch</mcp:DP_RelationshipTypeCode>
-                    </mcp:relationshipType>
-                    <mcp:vocabularyTermURL>
-                     <gmd:URL>http://www.imos.org.au/vocabserver?code=degreescelsius&amp;vocab=oceanography_units</gmd:URL>
-                    </mcp:vocabularyTermURL>
-                    <mcp:vocabularyListURL>
-                     <gmd:URL>http://www.imos.org.au/vocabserver?vocab=oceanography_units</gmd:URL>
-                    </mcp:vocabularyListURL>
-                    <mcp:vocabularyListVersion>
-                      <gco:CharacterString>2.1</gco:CharacterString>
-                    </mcp:vocabularyListVersion>
-                  </mcp:DP_VocabularyRelationship>
-                </mcp:vocabularyRelationship>
+                <mcp:vocabularyTermURL>
+                  <gmd:URL>http://vocab.nerc.ac.uk/collection/P06/current/UPAA</gmd:URL>
+                </mcp:vocabularyTermURL>
+
+Same publisher as before.
+
+                <mcp:vocabularyTermPublisher>
+                  <gmd:CI_Citation>
+                    <gmd:title>
+                      <gco:CharacterString>AODN Discovery Parameter Vocabulary</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                      <gmd:CI_Date>
+                        <gmd:date>
+                          <gco:Date>2015-09-01</gco:Date>
+                        </gmd:date>
+                        <gmd:dateType>
+                          <gmd:CI_DateTypeCode
+                            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
+                            codeListValue="creation"
+                          >creation</gmd:CI_DateTypeCode>
+                        </gmd:dateType>
+                      </gmd:CI_Date>
+                    </gmd:date>
+                    <gmd:citedResponsibleParty>
+                      <gmd:CI_ResponsibleParty>
+                        <gmd:organisationName>
+                          <gco:CharacterString>eMarine Information Infrastructure (eMII)</gco:CharacterString>
+                        </gmd:organisationName>
+                        <gmd:role>
+                          <gmd:CI_RoleCode
+                            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
+                            codeListValue="publisher"
+                          >publisher</gmd:CI_RoleCode>
+                        </gmd:role>
+                      </gmd:CI_ResponsibleParty>
+                    </gmd:citedResponsibleParty>
+                  </gmd:CI_Citation>
+                </mcp:vocabularyTermPublisher>
+
+                <mcp:vocabularyServiceURL>
+                  <gmd:URL>http://vocabs.ands.org.au/repository/api/lda/aodn/aodn-units-of-measure-vocabulary/version-1-0/concept</gmd:URL>
+                </mcp:vocabularyServiceURL>
+
+                <mcp:vocabularyVersion>
+                  <gco:CharacterString>1.0</gco:CharacterString>
+                </mcp:vocabularyVersion>
+
+                <mcp:termDefinition>
+                  <gco:CharacterString>Some definition for degrees celsius</gco:CharacterString>
+                </mcp:termDefinition>
+
               </mcp:DP_Term>
             </mcp:parameterUnits>
+
 
 
 ##### Parameter min and max values, and description
@@ -1571,11 +1659,6 @@ These are all simple strings.
             <mcp:parameterMaximumValue>
               <gco:CharacterString>18.2</gco:CharacterString>
             </mcp:parameterMaximumValue>
-
-            <mcp:parameterDescription>
-              <gco:CharacterString>The temperature observed by the CTD on its depth profile</gco:CharacterString>
-            </mcp:parameterDescription>
-
 
 (End of data parameter.)
 
