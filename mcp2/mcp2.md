@@ -733,7 +733,7 @@ You only need supply one of `individualName`, `organisationName`, or
 
 #### resourceMaintenance
 
-work in progress - optional field
+TODO work in progress - optional field
 
 
 #### Thumbnails
@@ -779,7 +779,7 @@ TODO: investigate how GeoNetwork resolves thumbnail file paths.
 
 #### Resource format
 
-work in progress (optional field)
+todo: work in progress (optional field)
 
 
 #### Keywords
@@ -1067,7 +1067,7 @@ Although CC0 is almost a CC licence, this example is using the generic licence
 
 #### Aggregation information
 
-work in progress (optional)
+todo: work in progress (optional)
 
 
 #### Language and character set for the data
@@ -1268,7 +1268,7 @@ GML objects need `id`s, so remember to add those where indicated.
 
 ##### Vertical flavour
 
-((work in progress))
+((todo: work in progress))
 
 
 ##### Description flavour
@@ -2047,13 +2047,12 @@ inside of a `mcp:revisionDate` tag.
 
 
 
-((work in progress: go through these "important" items and check each one
+((TODO work in progress: go through these "important" items and check each one
 is properly described.))
 
 **Required fields listed in AODN cookbook http://help.aodn.org.au/help/?q=node/96 ):**
 
-- mcp:dataParameters
-
+(all done)
 
 **Other important fields**
 
@@ -2062,8 +2061,8 @@ is properly described.))
 - mcp:samplingFrequency ‘continual’, ‘hourly’, ‘daily’, ‘weekly’, ‘fortnightly’, ‘monthly’, ‘quarterly’, ‘biannually’, ‘annually’, ‘asNeeded’, ‘irregular’, ‘notPlanned’, ‘unknown’. Reuses an extended ISO 19115:2003 B.5.18 MD_MaintenanceFrequencyCode
 - CI_Citation additional info, eg. publications from this dataset
 
+((TODO work in progress))
 
-((work in progress))
 
 ## De-literating this document
 
