@@ -25,13 +25,19 @@
   h2, h3, h4, h5, h6 {
     color: #357;
     margin: 0 0 0 -0.1em;
-    padding: 2em 0 0.5em;
+    padding: 1.5em 0 0.5em;
   }
-  h1 { font-size: 3.998rem; opacity: 0.85 }
-  h2 { font-size: 3.998rem; opacity: 0.85 }
-  h3 { font-size: 2.827rem; opacity: 0.90 }
-  h4 { font-size: 1.999rem; opacity: 0.95 }
-  h5 { font-size: 1.414rem; opacity: 1.00 }
+  h1 { font-size: 2.827rem; opacity: 0.85 }
+  h2 { font-size: 2.827rem; opacity: 0.85 }
+  h3 { font-size: 1.999rem; opacity: 0.90 }
+  h4 { font-size: 1.414rem; opacity: 0.95 }
+  h5 { font-size: 1.000rem; opacity: 1.00 }
+  h6 { font-size: 0.707rem; opacity: 1.00 }
+
+  h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    color: inherit;
+    text-decoration: inherit;
+  }
 
   p {
     margin: 0;
@@ -82,6 +88,14 @@
     margin: 0 auto;
     padding: 0 1rem 1rem;
   }
+
+  /* ToC management */
+  #tocHeading { cursor: pointer; }
+  #tocContent { overflow: hidden; font-size: smaller; }
+  .open   #tocHeading:after { content: ' \25be' }
+  .closed #tocHeading:after { content: ' \25b8' }
+  .open   #tocContent { height: auto; }
+  .closed #tocContent { height: 0; }
 
 </style>
 
