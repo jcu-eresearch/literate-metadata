@@ -731,9 +731,43 @@ You only need supply one of `individualName`, `organisationName`, or
       </gmd:CI_ResponsibleParty>
     </gmd:pointOfContact>
 
+
 #### resourceMaintenance
 
-TODO work in progress - optional field
+You can optionally declare the intention to update the dataset.  This example
+declares that updates are `notPlanned`, but you can change that to any of these
+values:
+
+- `continual` which in this context means "repeatedly and frequently"
+- `hourly` only here because this list is also used for `samplingFrequency`
+- `daily`
+- `weekly`
+- `fortnightly`
+- `monthly`
+- `quarterly`
+- `biannually` twice a year (this word legitimately also means every two years,
+  but not in this context)
+- `annually`
+- `asNeeded`
+- `irregular`
+- `notPlanned`
+- `unknown`
+
+If you're promising updates, there are additional properties allowed in the
+`MD_MaintenanceInformation` tag describing stuff like the date of the next update,
+the scope, the contact person for the update, etc. If I ever get a chance to use
+those options I'll document them here.
+
+    <gmd:resourceMaintenance>
+      <gmd:MD_MaintenanceInformation>
+        <gmd:maintenanceAndUpdateFrequency>
+          <gmd:MD_MaintenanceFrequencyCode
+            codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode"
+            codeListValue="notPlanned"
+          >notPlanned</gmd:MD_MaintenanceFrequencyCode>
+        </gmd:maintenanceAndUpdateFrequency>
+      </gmd:MD_MaintenanceInformation>
+    </gmd:resourceMaintenance>
 
 
 #### Thumbnails
@@ -1376,6 +1410,28 @@ Here's a list of some useful region types and codes; look inside a copy of
 
       </gmd:EX_Extent>
     </gmd:extent>
+
+
+#### Sampling frequency
+
+(TODO Work in progress)
+
+A record of the frequency at which a dataset is sampled.  Note that there is a
+separate place to record the aggregation period, so this tag should used to
+represent the period between multiple reported data points.
+
+Note that the `MD_MaintenanceFrequencyCode` tag is identical to that used in the
+section on resource maintenance frequency, so refer to that for a full list of
+values, but you'll usually want one of `hourly`, `daily`, `weekly`, `annually`,
+`asNeeded`, or `irregular`.
+
+
+     <mcp:samplingFrequency>
+      <gmd:MD_MaintenanceFrequencyCode
+        codeList="https://github.com/aodn/schema-plugins/raw/master/iso19139.mcp-2.0/schema/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode"
+        codeListValue="asNeeded"
+      >asNeeded</gmd:MD_MaintenanceFrequencyCode>
+    </mcp:samplingFrequency>
 
 
 #### Data parameters
