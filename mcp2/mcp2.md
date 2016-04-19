@@ -222,8 +222,9 @@ Note that `deliveryPoint` is where you put the street address, PO Box, etc.
               </gmd:CI_Address>
             </gmd:address>
 
-It's *phone* rather than *telephone*, but also *electronicMailAddress* and
-*facsimile* rather than *emailAddress* and *fax*.
+It's *electronicMailAddress* and *facsimile* rather than "emailAddress" and "fax",
+but at least it's *phone* rather than "telephone" (or "[electric telegraph
+transmission and reception device](https://www.google.com.au/patents/US161739)").
 
 Optionally the contact person can have an `onlineResource`; this example is
 from an eAtlas record, and links to the root of the
