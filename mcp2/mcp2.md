@@ -1357,10 +1357,22 @@ which data numbers will increase.
                         </gml:CoordinateSystemAxis>
                       </gml:axis>
 
-Now to close all the verticalness things.
-
                   </gml:VerticalCS>
                 </gml:usesVerticalCS>
+
+Now we can specify the datum, which we already said was MSL but needs
+saying again.
+
+                <gml:verticalDatum>
+                  <gml:VerticalDatum gml:id="gmlvd">
+                    <gml:identifier codeSpace="urn:ogc:def:cs:EPSG::">5100</gml:identifier>
+                    <gml:name>mean sea level</gml:name>
+                    <gml:scope>World</gml:scope>
+                  </gml:VerticalDatum>
+                </gml:verticalDatum>
+
+Finally, close all the things.
+
               </gml:VerticalCRS>
             </gmd:verticalCRS>
           </gmd:EX_VerticalExtent>
