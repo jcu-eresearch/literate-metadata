@@ -1267,7 +1267,8 @@ The weirdly specific `three-day` and `six-day` values are new to MCP2.0 (in
 fact they are present only in the codeList source and not mentioned in any
 public MCP2 documentation, but I asked a MCP person and they're official).
 
-GML objects need `id`s, so remember to add those where indicated.
+GML "objects" (which doesn't mean every gml tag) need `id`s, so
+remember to add those where indicated.
 
         <gmd:temporalElement>
           <mcp:EX_TemporalExtent gco:isoType="gmd:EX_TemporalExtent">
@@ -1303,7 +1304,67 @@ GML objects need `id`s, so remember to add those where indicated.
 
 ##### Vertical flavour
 
-((todo: work in progress))
+((TODO: expand this section))
+
+Vertical extents need minimum and maximum values, and to specify a
+`verticalCRS` to describe what crazy units you're using and if more
+negative means further toward the Earth's core, or further away.
+
+        <gmd:verticalElement>
+          <gmd:EX_VerticalExtent>
+
+Min and max values are the quick bit.
+
+            <gmd:minimumValue>
+              <gco:Real>-5625</gco:Real>
+            </gmd:minimumValue>
+            <gmd:maximumValue>
+              <gco:Real>2848</gco:Real>
+            </gmd:maximumValue>
+
+Now the `verticalCRS > VerticalCRS`.  Watch out for these parts:
+
+- `identifier` is the coordinate reference system for your vertical
+  measure.  You probably want `5714` or `5715` for a world-over
+  metres from mean sea level or "msl".  Use `5714` for *height* from
+  MSL (negative means underwater) and `5715` for *depth* (positive
+  means underwater)
+- `... > VerticalCS > identifier` is the coordinate system for your
+  vertical measure.  Use `6499` to refer to units of *metres* and
+  an orientation of *up*.  Use `6498` for metres down.  Use this 🔫
+  if you can't stand specifying the same thing over and over any
+  more
+
+
+            <gmd:verticalCRS>
+              <gml:VerticalCRS gml:id="gmlvcrs">
+                <gml:identifier codeSpace="urn:ogc:def:cs:EPSG::">5714</gml:identifier>
+                <gml:scope>Australia</gml:scope>
+                <gml:usesVerticalCS>
+                  <gml:VerticalCS gml:id="gmlvcs">
+                    <gml:identifier codeSpace="urn:ogc:def:cs:EPSG::">6499</gml:identifier>
+
+This `CoordinateSystemAxis` tag specifies `uom="m"` to specify metres
+again, and describes EPSG:5711 which is the Australian height datum
+or "AHD", and finally specifies again that "up" is the direction in
+which data numbers will increase.
+
+                      <gml:axis>
+                        <gml:CoordinateSystemAxis gml:id="gmlcsa" gml:uom="m">
+                          <gml:identifier codeSpace="urn:ogc:def:axis:EPSG::">5711</gml:identifier>
+                          <gml:axisAbbrev>AHD</gml:axisAbbrev>
+                          <gml:axisDirection codeSpace="urn:ogc:def:axisDirection:EPSG::">up</gml:axisDirection>
+                        </gml:CoordinateSystemAxis>
+                      </gml:axis>
+
+Now to close all the verticalness things.
+
+                  </gml:VerticalCS>
+                </gml:usesVerticalCS>
+              </gml:VerticalCRS>
+            </gmd:verticalCRS>
+          </gmd:EX_VerticalExtent>
+        </gmd:verticalElement>
 
 
 ##### Description flavour
@@ -1607,7 +1668,7 @@ between this data parameter and other vocab words. The allowable
 
 Instead of a `vocabularyTermURL`, you can choose to supply a simple
 definition (technically you can have both, but you must have one or the other,
-and which one you require depends on the `type` you gave this parameter).  
+and which one you require depends on the `type` you gave this parameter).
 
 I don't have an example, but I think it would look like this:
 
